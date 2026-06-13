@@ -102,14 +102,16 @@ export const dashboardService = {
       (member) => member.status === "IDLE"
     );
 
-    const completedTasksWithDuration = tasks.filter(
-      (task) => task.completedAt !== null
-    );
+    const completedTasksWithValidDuration = tasks.filter((task) => {
+      if (!task.completedAt) return false;
+
+      return task.completedAt >= task.createdAt;
+    });
 
     const averageCompletionTimeInDays =
-      completedTasksWithDuration.length === 0
+      completedTasksWithValidDuration.length === 0
         ? 0
-        : completedTasksWithDuration.reduce((total, task) => {
+        : completedTasksWithValidDuration.reduce((total, task) => {
             const createdAt = task.createdAt.getTime();
             const completedAt = task.completedAt!.getTime();
 
@@ -117,7 +119,7 @@ export const dashboardService = {
               (completedAt - createdAt) / (1000 * 60 * 60 * 24);
 
             return total + durationInDays;
-          }, 0) / completedTasksWithDuration.length;
+          }, 0) / completedTasksWithValidDuration.length;
 
     return {
       kpis: {
