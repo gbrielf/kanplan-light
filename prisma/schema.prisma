@@ -35,6 +35,7 @@ model Project {
   startDate   DateTime
   dueDate     DateTime
   status      ProjectStatus @default(PLANNING)
+  priority    Priority      @default(MEDIUM)
 
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
