@@ -1,5 +1,7 @@
 "use client";
 import { TaskCard } from "@/components/kanban/task-card";
+import { KpiCard } from "@/components/kanban/kpi-card";
+import { Sidebar } from "@/components/kanban/side-bar";
 
 import { useEffect, useMemo, useState } from "react";
 
@@ -216,36 +218,7 @@ export default function BoardPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
       <div className="flex min-h-screen">
-        <aside className="w-64 border-r border-slate-800 bg-slate-900 p-6">
-          <h1 className="text-xl font-bold">Kanplan Light</h1>
-          <p className="mt-1 text-sm text-slate-400">Gestão para PMEs</p>
-
-          <nav className="mt-8 space-y-2 text-sm">
-            <a className="block rounded-lg bg-slate-800 px-3 py-2 text-white">
-              Kanban
-            </a>
-            <a className="block rounded-lg px-3 py-2 text-slate-400">
-              Dashboard
-            </a>
-
-            <div className="my-4 border-t border-slate-800" />
-
-            {["Projetos", "Equipe", "Relatórios", "Configurações"].map(
-              (item) => (
-                <div
-                  key={item}
-                  className="flex cursor-not-allowed items-center justify-between rounded-lg px-3 py-2 text-slate-600"
-                >
-                  <span>{item}</span>
-                  <span className="rounded-full bg-slate-800 px-2 py-0.5 text-xs">
-                    Light
-                  </span>
-                </div>
-              )
-            )}
-          </nav>
-        </aside>
-
+        <Sidebar />
         <section className="flex-1 p-8">
           <header className="mb-8">
             <p className="text-sm text-slate-400">Quadro de atividades</p>
@@ -264,66 +237,71 @@ export default function BoardPage() {
           
           {dashboardData && (
             <section className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-                <div className="rounded-2xl border border-red-900/50 bg-red-950/30 p-4">
-                <p className="text-sm text-red-300">Tarefas atrasadas</p>
-                <strong className="mt-2 block text-3xl">{dashboardData.kpis.overdueTasks}</strong>
-                <span className="text-xs text-red-200/70">exigem ação imediata</span>
-                </div>
+                <KpiCard
+                title="Tarefas atrasadas"
+                value={dashboardData.kpis.overdueTasks}
+                description="exigem ação imediata"
+                variant="danger"
+                />
 
-                <div className="rounded-2xl border border-amber-900/50 bg-amber-950/30 p-4">
-                <p className="text-sm text-amber-300">Prazos em risco</p>
-                <strong className="mt-2 block text-3xl">{dashboardData.kpis.tasksAtRisk}</strong>
-                <span className="text-xs text-amber-200/70">vencem em até 48h</span>
-                </div>
+                <KpiCard
+                title="Prazos em risco"
+                value={dashboardData.kpis.tasksAtRisk}
+                description="vencem em até 48h"
+                variant="warning"
+                />
 
-                <div className="rounded-2xl border border-blue-900/50 bg-blue-950/30 p-4">
-                <p className="text-sm text-blue-300">Sobrecarga</p>
-                <strong className="mt-2 block text-3xl">{dashboardData.kpis.overloadedMembers}</strong>
-                <span className="text-xs text-blue-200/70">membros com alta carga</span>
-                </div>
+                <KpiCard
+                title="Sobrecarga"
+                value={dashboardData.kpis.overloadedMembers}
+                description="membros com alta carga"
+                variant="info"
+                />
 
-                <div className="rounded-2xl border border-slate-700 bg-slate-900 p-4">
-                <p className="text-sm text-slate-300">Ociosos</p>
-                <strong className="mt-2 block text-3xl">{dashboardData.kpis.idleMembers}</strong>
-                <span className="text-xs text-slate-500">capacidade disponível</span>
-                </div>
+                <KpiCard
+                title="Ociosos"
+                value={dashboardData.kpis.idleMembers}
+                description="capacidade disponível"
+                variant="neutral"
+                />
 
-                <div className="rounded-2xl border border-emerald-900/50 bg-emerald-950/30 p-4">
-                <p className="text-sm text-emerald-300">Concluídas</p>
-                <strong className="mt-2 block text-3xl">{dashboardData.kpis.completedThisWeek}</strong>
-                <span className="text-xs text-emerald-200/70">na semana</span>
-                </div>
+                <KpiCard
+                title="Concluídas"
+                value={dashboardData.kpis.completedThisWeek}
+                description="na semana"
+                variant="success"
+                />
             </section>
             )}
           {loading ? (
             <p className="text-slate-400">Carregando tarefas...</p>
           ) : (
-            <div className="grid grid-cols-1 gap-4 xl:grid-cols-5">
-              {columns.map((column) => (
-                <div
-                  key={column.status}
-                  className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4"
-                >
-                  <div className="mb-4 flex items-center justify-between">
-                    <h3 className="font-semibold">{column.title}</h3>
-                    <span className="rounded-full bg-slate-800 px-2 py-1 text-xs text-slate-300">
-                      {tasksByStatus[column.status].length}
-                    </span>
-                  </div>
-
-                  <div className="space-y-3">
-                    {tasksByStatus[column.status].map((task) => (
-                      <TaskCard key={task.id} task={task} onAdvance={moveTask} />
-                    ))}
-
-                    {tasksByStatus[column.status].length === 0 && (
-                      <p className="rounded-xl border border-dashed border-slate-800 p-4 text-center text-sm text-slate-500">
-                        Nenhuma tarefa aqui.
-                      </p>
-                    )}
-                  </div>
+            <div className="w-full overflow-x-auto pb-4">
+                <div className="grid w-max grid-cols-5 gap-4">
+                    {columns.map((column) => (
+                    <div
+                        key={column.status}
+                        className="flex min-h-[650px] w-80 flex-col rounded-2xl border border-slate-800 bg-slate-900/80 p-4 backdrop-blur-sm"
+                    >
+                      <div className="mb-4 flex items-center justify-between border-b border-slate-800 pb-3">
+                        <h3 className="font-semibold">{column.title}</h3>
+                        <span className="rounded-full bg-slate-800 px-2 py-1 text-xs text-slate-300">
+                          {tasksByStatus[column.status].length}
+                        </span>
+                      </div>
+                      <div className="space-y-3">
+                        {tasksByStatus[column.status].map((task) => (
+                          <TaskCard key={task.id} task={task} onAdvance={moveTask} />
+                        ))}
+                        {tasksByStatus[column.status].length === 0 && (
+                          <p className="rounded-xl border border-dashed border-slate-800 p-4 text-center text-sm text-slate-500">
+                            Nenhuma tarefa aqui.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
             </div>
           )}
         </section>
