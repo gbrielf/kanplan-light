@@ -39,6 +39,16 @@ type CreateTaskForm = {
   assigneeId: string;
 };
 
+type DashboardData = {
+  kpis: {
+    overdueTasks: number;
+    tasksAtRisk: number;
+    overloadedMembers: number;
+    idleMembers: number;
+    completedThisWeek: number;
+  };
+};
+
 const columns: { status: TaskStatus; title: string }[] = [
   { status: "TO_DO", title: "A iniciar" },
   { status: "IN_PROGRESS", title: "Em andamento" },
@@ -85,6 +95,7 @@ export default function BoardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [isCreating, setIsCreating] = useState(false);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
 
   const [form, setForm] = useState<CreateTaskForm>({
     title: "",
@@ -94,6 +105,13 @@ export default function BoardPage() {
     projectId: "",
     assigneeId: "",
   });
+
+  async function loadDashboardData() {
+    const response = await fetch("/api/dashboard");
+    const data = await response.json();
+
+    setDashboardData(data);
+  }
 
   async function loadTasks() {
     const response = await fetch("/api/tasks");
@@ -142,11 +160,13 @@ export default function BoardPage() {
         item.id === updatedTask.id ? updatedTask : item
       )
     );
+    await loadDashboardData();
   }
 
   useEffect(() => {
     loadTasks();
     loadFormData();
+    loadDashboardData();
   }, []);
 
   const tasksByStatus = useMemo(() => {
@@ -190,6 +210,7 @@ export default function BoardPage() {
 
     setIsCreating(false);
     await loadTasks();
+    await loadDashboardData();
   }
 
   return (
@@ -240,7 +261,40 @@ export default function BoardPage() {
             + Nova tarefa
             </button>
           </header>
+          
+          {dashboardData && (
+            <section className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+                <div className="rounded-2xl border border-red-900/50 bg-red-950/30 p-4">
+                <p className="text-sm text-red-300">Tarefas atrasadas</p>
+                <strong className="mt-2 block text-3xl">{dashboardData.kpis.overdueTasks}</strong>
+                <span className="text-xs text-red-200/70">exigem ação imediata</span>
+                </div>
 
+                <div className="rounded-2xl border border-amber-900/50 bg-amber-950/30 p-4">
+                <p className="text-sm text-amber-300">Prazos em risco</p>
+                <strong className="mt-2 block text-3xl">{dashboardData.kpis.tasksAtRisk}</strong>
+                <span className="text-xs text-amber-200/70">vencem em até 48h</span>
+                </div>
+
+                <div className="rounded-2xl border border-blue-900/50 bg-blue-950/30 p-4">
+                <p className="text-sm text-blue-300">Sobrecarga</p>
+                <strong className="mt-2 block text-3xl">{dashboardData.kpis.overloadedMembers}</strong>
+                <span className="text-xs text-blue-200/70">membros com alta carga</span>
+                </div>
+
+                <div className="rounded-2xl border border-slate-700 bg-slate-900 p-4">
+                <p className="text-sm text-slate-300">Ociosos</p>
+                <strong className="mt-2 block text-3xl">{dashboardData.kpis.idleMembers}</strong>
+                <span className="text-xs text-slate-500">capacidade disponível</span>
+                </div>
+
+                <div className="rounded-2xl border border-emerald-900/50 bg-emerald-950/30 p-4">
+                <p className="text-sm text-emerald-300">Concluídas</p>
+                <strong className="mt-2 block text-3xl">{dashboardData.kpis.completedThisWeek}</strong>
+                <span className="text-xs text-emerald-200/70">na semana</span>
+                </div>
+            </section>
+            )}
           {loading ? (
             <p className="text-slate-400">Carregando tarefas...</p>
           ) : (
