@@ -20,6 +20,25 @@ type Task = {
   };
 };
 
+type Project = {
+  id: string;
+  name: string;
+};
+
+type Member = {
+  id: string;
+  name: string;
+};
+
+type CreateTaskForm = {
+  title: string;
+  description: string;
+  priority: Priority;
+  dueDate: string;
+  projectId: string;
+  assigneeId: string;
+};
+
 const columns: { status: TaskStatus; title: string }[] = [
   { status: "TO_DO", title: "A iniciar" },
   { status: "IN_PROGRESS", title: "Em andamento" },
@@ -63,6 +82,18 @@ function sortTasksByPriorityAndDueDate(tasks: Task[]) {
 export default function BoardPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
+  const [isCreating, setIsCreating] = useState(false);
+
+  const [form, setForm] = useState<CreateTaskForm>({
+    title: "",
+    description: "",
+    priority: "MEDIUM",
+    dueDate: "",
+    projectId: "",
+    assigneeId: "",
+  });
 
   async function loadTasks() {
     const response = await fetch("/api/tasks");
@@ -70,6 +101,25 @@ export default function BoardPage() {
 
     setTasks(data);
     setLoading(false);
+  }
+
+  async function loadFormData() {
+    const [projectsResponse, membersResponse] = await Promise.all([
+        fetch("/api/projects"),
+        fetch("/api/members"),
+    ]);
+
+    const projectsData = await projectsResponse.json();
+    const membersData = await membersResponse.json();
+
+    setProjects(projectsData);
+    setMembers(membersData);
+
+    setForm((current) => ({
+        ...current,
+        projectId: projectsData[0]?.id ?? "",
+        assigneeId: membersData[0]?.id ?? "",
+    }));
   }
 
   async function moveTask(task: Task) {
@@ -96,6 +146,7 @@ export default function BoardPage() {
 
   useEffect(() => {
     loadTasks();
+    loadFormData();
   }, []);
 
   const tasksByStatus = useMemo(() => {
@@ -116,6 +167,30 @@ export default function BoardPage() {
       }
     );
   }, [tasks]);
+
+  async function createTask(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    await fetch("/api/tasks", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form),
+    });
+
+    setForm({
+        title: "",
+        description: "",
+        priority: "MEDIUM",
+        dueDate: "",
+        projectId: projects[0]?.id ?? "",
+        assigneeId: members[0]?.id ?? "",
+    });
+
+    setIsCreating(false);
+    await loadTasks();
+  }
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-100">
@@ -158,6 +233,12 @@ export default function BoardPage() {
               Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos
               das atividades do time.
             </p>
+            <button
+            onClick={() => setIsCreating(true)}
+            className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+            >
+            + Nova tarefa
+            </button>
           </header>
 
           {loading ? (
@@ -235,6 +316,130 @@ export default function BoardPage() {
           )}
         </section>
       </div>
+      {isCreating && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+            <div className="w-full max-w-2xl rounded-2xl border border-slate-700 bg-slate-950 p-6 shadow-2xl">
+            <div className="mb-6">
+                <p className="text-sm text-slate-400">Registro de atividade</p>
+                <h2 className="text-2xl font-bold">Criar Tarefa</h2>
+            </div>
+
+            <form onSubmit={createTask} className="space-y-4">
+                <div>
+                <label className="text-sm text-slate-400">Título</label>
+                <input
+                    required
+                    value={form.title}
+                    onChange={(event) =>
+                    setForm({ ...form, title: event.target.value })
+                    }
+                    placeholder="Ex.: Revisar proposta do cliente"
+                    className="mt-1 w-full border-b border-slate-700 bg-transparent px-1 py-3 text-lg outline-none placeholder:text-slate-600 focus:border-blue-500"
+                />
+                </div>
+
+                <div>
+                <label className="text-sm text-slate-400">Descrição</label>
+                <textarea
+                    value={form.description}
+                    onChange={(event) =>
+                    setForm({ ...form, description: event.target.value })
+                    }
+                    placeholder="Descreva rapidamente o que precisa ser feito..."
+                    className="mt-1 min-h-24 w-full resize-none border-b border-slate-700 bg-transparent px-1 py-3 outline-none placeholder:text-slate-600 focus:border-blue-500"
+                />
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                    <label className="text-sm text-slate-400">Projeto</label>
+                    <select
+                    required
+                    value={form.projectId}
+                    onChange={(event) =>
+                        setForm({ ...form, projectId: event.target.value })
+                    }
+                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                    >
+                    {projects.map((project) => (
+                        <option key={project.id} value={project.id}>
+                        {project.name}
+                        </option>
+                    ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label className="text-sm text-slate-400">Responsável</label>
+                    <select
+                    required
+                    value={form.assigneeId}
+                    onChange={(event) =>
+                        setForm({ ...form, assigneeId: event.target.value })
+                    }
+                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                    >
+                    {members.map((member) => (
+                        <option key={member.id} value={member.id}>
+                        {member.name}
+                        </option>
+                    ))}
+                    </select>
+                </div>
+
+                <div>
+                    <label className="text-sm text-slate-400">Prioridade</label>
+                    <select
+                    value={form.priority}
+                    onChange={(event) =>
+                        setForm({
+                        ...form,
+                        priority: event.target.value as Priority,
+                        })
+                    }
+                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                    >
+                    <option value="LOW">Baixa</option>
+                    <option value="MEDIUM">Média</option>
+                    <option value="HIGH">Alta</option>
+                    <option value="URGENT">Urgente</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label className="text-sm text-slate-400">Prazo</label>
+                    <input
+                    required
+                    type="date"
+                    value={form.dueDate}
+                    onChange={(event) =>
+                        setForm({ ...form, dueDate: event.target.value })
+                    }
+                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                    />
+                </div>
+                </div>
+
+                <div className="flex justify-end gap-3 border-t border-slate-800 pt-5">
+                <button
+                    type="button"
+                    onClick={() => setIsCreating(false)}
+                    className="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-900"
+                >
+                    Cancelar
+                </button>
+
+                <button
+                    type="submit"
+                    className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+                >
+                    Criar tarefa
+                </button>
+                </div>
+            </form>
+            </div>
+        </div>
+        )}
     </main>
   );
 }
