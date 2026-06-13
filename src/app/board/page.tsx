@@ -43,6 +43,23 @@ const priorityLabel: Record<Priority, string> = {
   URGENT: "Urgente",
 };
 
+const priorityWeight: Record<Priority, number> = {
+  URGENT: 4,
+  HIGH: 3,
+  MEDIUM: 2,
+  LOW: 1,
+};
+
+function sortTasksByPriorityAndDueDate(tasks: Task[]) {
+  return [...tasks].sort((a, b) => {
+    const priorityDiff = priorityWeight[b.priority] - priorityWeight[a.priority];
+
+    if (priorityDiff !== 0) return priorityDiff;
+
+    return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+  });
+}
+
 export default function BoardPage() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,8 +101,8 @@ export default function BoardPage() {
   const tasksByStatus = useMemo(() => {
     return columns.reduce<Record<TaskStatus, Task[]>>(
       (acc, column) => {
-        acc[column.status] = tasks.filter(
-          (task) => task.status === column.status
+        acc[column.status] = sortTasksByPriorityAndDueDate(
+          tasks.filter((task) => task.status === column.status)
         );
 
         return acc;
