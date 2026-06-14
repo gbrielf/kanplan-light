@@ -23,13 +23,21 @@ type Task = {
     name: string;
   };
   assignee: {
+    id: string;
     name: string;
   };
 };
 
+type Member = {
+  id: string;
+  name: string;
+};
+
 type TaskCardProps = {
   task: Task;
+  members: Member[];
   onAdvance: (task: Task) => void;
+  onReassign: (taskId: string, assigneeId: string) => void;
 };
 
 const nextStatus: Record<TaskStatus, TaskStatus | null> = {
@@ -47,10 +55,16 @@ const priorityLabel: Record<Priority, string> = {
   URGENT: 'Urgente',
 };
 
-export function TaskCard({ task, onAdvance }: TaskCardProps) {
+ export function TaskCard({
+    task,
+    members,
+    onAdvance,
+    onReassign,
+  }: TaskCardProps) {
   const isOverdue =
     task.status !== 'DONE' && new Date(task.dueDate) < new Date();
 
+ 
   return (
     <article className="w-72 rounded-2xl border border-[#2B2B2B] bg-[#0D0D0D] p-4 text-white shadow-md">
       <div className="mb-3 flex items-start justify-between gap-3">
@@ -110,11 +124,26 @@ export function TaskCard({ task, onAdvance }: TaskCardProps) {
         <p className="line-clamp-4 text-sm leading-6 text-slate-100">
           {task.description || 'Sem descrição informada para esta tarefa.'}
         </p>
-      </div>
+        </div>
+        <div className="mt-4 border-t border-white/10 pt-3 text-xs text-slate-400">
+              <p>{task.project.name}</p>
+              <div className="mt-2">
+                <label className="mb-1 block text-xs text-slate-500">
+                  Responsável
+                </label>
 
-      <div className="mt-4 border-t border-white/10 pt-3 text-xs text-slate-400">
-        <p>{task.project.name}</p>
-        <p>{task.assignee.name}</p>
+                  <select
+                    value={task.assignee.id}
+                    onChange={(event) => onReassign(task.id, event.target.value)}
+                    className="w-full rounded-lg border border-[#2B2B2B] bg-[#0B0B0B] px-3 py-2 text-xs text-white"
+                  >
+                    {members.map((member) => (
+                      <option key={member.id} value={member.id}>
+                        {member.name}
+                      </option>
+                    ))}
+                  </select>
+      </div>
       </div>
     </article>
   );
