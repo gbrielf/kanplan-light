@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -367,8 +367,15 @@ export function Sidebar() {
 
   return (
     <aside className="flex h-screen w-64 shrink-0 flex-col bg-[#1E1E1E] px-4 py-6">
-      <div className="px-2">
-        <h1 className="text-xl font-bold text-white">Kanplan.</h1>
+      <div className="flex items-baseline gap-1 px-2">
+        <Image
+          src="/icons/logo-monocromatica-branca-com-fundo-transparente 3.png"
+          alt="Kanplan logotipo"
+          width={64}
+          height={64}
+        />
+        <h1 className="text-xl font-bold text-white">Kanplan</h1>
+        <span className="text-sm font-light text-zinc-300">light.</span>
       </div>
 
       <div className="mt-6 flex items-center gap-2 rounded-lg bg-[#2C2C2C] px-3 py-2 text-sm text-[#9E9E9E]">
