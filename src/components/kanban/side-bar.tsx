@@ -403,21 +403,14 @@ export function Sidebar() {
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="h-9 w-9 overflow-hidden rounded-full bg-white">
-                <img
-                  src="/avatar.png"
-                  alt="avatar"
-                  className="h-full w-full object-cover"
-                  onError={(event) => {
-                    event.currentTarget.style.display = 'none';
-                  }}
-                />
+                R
               </div>
               <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-[#1E1E1E]" />
             </div>
 
             <div>
-              <p className="text-sm font-medium text-white">Gabriel Barbosa</p>
-              <p className="text-xs text-[#9E9E9E]">gabriel@email.com</p>
+              <p className="text-sm font-medium text-white">Ricardo</p>
+              <p className="text-xs text-[#9E9E9E]">ricardo@email.com</p>
             </div>
           </div>
         </div>

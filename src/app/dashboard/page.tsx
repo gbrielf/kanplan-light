@@ -27,6 +27,7 @@ type DashboardTask = {
     name: string;
   };
   assignee: {
+    id: string;
     name: string;
   };
 };
@@ -63,6 +64,7 @@ type DashboardData = {
   };
   membersCapacity: MemberCapacity[];
   projects: DashboardProject[];
+  tasks: DashboardTask[];
 };
 
 const memberStatusLabel: Record<MemberStatus, string> = {
@@ -92,6 +94,7 @@ function formatDate(date: string) {
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
+  const [expandedMemberId, setExpandedMemberId] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadDashboard() {
@@ -169,51 +172,105 @@ export default function DashboardPage() {
                     </div>
 
                     <div className="space-y-3">
-                      {data.membersCapacity.map((member) => (
-                        <div
-                          key={member.id}
-                          className="grid items-center gap-4 rounded-xl border border-[#2B2B2B] bg-[#0B0B0B] p-4 md:grid-cols-[1.3fr_0.8fr_1fr]"
-                        >
-                          <div>
-                            <p className="font-medium">{member.name}</p>
-                            <p className="text-sm text-slate-500">
-                              {member.role ?? "Sem função"}
-                            </p>
-                          </div>
+                      {data.membersCapacity.map((member) => {
+  const memberTasks = data.tasks.filter(
+    (task) => task.assignee.id === member.id && task.status !== "DONE"
+  );
 
-                          <div className="text-sm text-slate-400">
-                            <p>{member.activeTasks} tarefas ativas</p>
-                            <p>{member.overdueTasks} atrasadas</p>
-                          </div>
+  const isExpanded = expandedMemberId === member.id;
 
-                          <div>
-                            <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
-                              <span>Score de carga</span>
-                              <span>{member.capacityScore}</span>
-                            </div>
+  return (
+    <div
+      key={member.id}
+      className="rounded-xl border border-[#2B2B2B] bg-[#0B0B0B] p-4"
+    >
+      <div className="grid items-center gap-4 md:grid-cols-[1.3fr_0.8fr_1fr_auto]">
+        <div>
+          <p className="font-medium">{member.name}</p>
+          <p className="text-sm text-slate-500">
+            {member.role ?? "Sem função"}
+          </p>
+        </div>
 
-                            <div className="h-2 rounded-full bg-[#2B2B2B]">
-                              <div
-                                className="h-2 rounded-full bg-white"
-                                style={{
-                                  width: `${Math.min(
-                                    member.capacityScore * 10,
-                                    100
-                                  )}%`,
-                                }}
-                              />
-                            </div>
+        <div className="text-sm text-slate-400">
+          <p>{member.activeTasks} tarefas ativas</p>
+          <p>{member.overdueTasks} atrasadas</p>
+        </div>
 
-                            <span
-                              className={`mt-3 inline-flex rounded-full border px-3 py-1 text-xs font-medium ${
-                                memberStatusClass[member.status]
-                              }`}
-                            >
-                              {memberStatusLabel[member.status]}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+        <div>
+          <div className="mb-2 flex items-center justify-between text-xs text-slate-400">
+            <span>Score de carga</span>
+            <span>{member.capacityScore}</span>
+          </div>
+
+          <div className="h-2 rounded-full bg-[#2B2B2B]">
+            <div
+              className="h-2 rounded-full bg-white"
+              style={{
+                width: `${Math.min(member.capacityScore * 10, 100)}%`,
+              }}
+            />
+          </div>
+
+          <span
+            className={`mt-3 inline-flex rounded-full border px-3 py-1 text-xs font-medium ${
+              memberStatusClass[member.status]
+            }`}
+          >
+            {memberStatusLabel[member.status]}
+          </span>
+        </div>
+
+        <button
+          onClick={() =>
+            setExpandedMemberId(isExpanded ? null : member.id)
+          }
+          className="rounded-lg border border-white/10 px-3 py-2 text-xs text-slate-300 transition hover:border-white/30 hover:text-white"
+        >
+          {isExpanded ? "Ocultar" : "Ver tarefas"}
+        </button>
+      </div>
+
+      {isExpanded && (
+        <div className="mt-4 border-t border-[#2B2B2B] pt-4">
+          {memberTasks.length === 0 ? (
+            <p className="text-sm text-slate-500">
+              Nenhuma tarefa ativa atribuída a este membro.
+            </p>
+          ) : (
+            <div className="grid gap-3 md:grid-cols-2">
+              {memberTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className="rounded-xl border border-[#2B2B2B] bg-[#181919] p-3"
+                >
+                  <div className="mb-2 flex items-start justify-between gap-3">
+                    <p className="text-sm font-medium text-white">
+                      {task.title}
+                    </p>
+
+                    <span className="rounded-full bg-white/10 px-2 py-1 text-[11px] text-slate-300">
+                      {task.priority}
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-slate-400">
+                    {task.project.name}
+                  </p>
+
+                  <p className="mt-2 text-xs text-slate-500">
+                    Status: {task.status} • Prazo:{" "}
+                    {formatDate(task.dueDate)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+})}
                     </div>
                   </div>
 
@@ -285,9 +342,10 @@ export default function DashboardPage() {
 
                   <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                     {data.projects.map((project) => {
-                      const openTasks = project.tasks.filter(
-                        (task) => task.status !== "DONE"
-                      ).length;
+                      const openTasks =
+                        project.status === "COMPLETED"
+                          ? 0
+                          : project.tasks.filter((task) => task.status !== "DONE").length;
 
                       return (
                         <div
