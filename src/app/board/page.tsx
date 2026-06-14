@@ -2,8 +2,10 @@
 import { TaskCard } from '@/components/kanban/task-card';
 import { KpiCard } from '@/components/kanban/kpi-card';
 import { Sidebar } from '@/components/kanban/side-bar';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 import { useEffect, useMemo, useState } from 'react';
+import { TaskIcon } from '@/components/icons/task-icon';
 
 type TaskStatus = 'TO_DO' | 'IN_PROGRESS' | 'VALIDATION' | 'REVIEW' | 'DONE';
 type Priority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
@@ -225,20 +227,51 @@ export default function BoardPage() {
       <Sidebar />
 
       <section className="flex min-w-0 flex-1 flex-col overflow-hidden p-8">
-        <header className="mb-6 shrink-0">
-          <p className="text-sm text-slate-400">Quadro de atividades</p>
-          <h2 className="text-3xl font-bold">Kanban da Equipe</h2>
-          <p className="mt-2 max-w-2xl text-slate-400">
-            Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos
-            das atividades do time.
-          </p>
+        <header className="mb-6 shrink-0 overflow-hidden rounded-2xl border border-[#2B2B2B] bg-[#181919]">
+          <div className="border-b border-[#2B2B2B] bg-[#0F1010] px-6 py-5">
+            <p className="text-sm text-slate-400">Quadro de atividades</p>
 
-          <button
-            onClick={() => setIsCreating(true)}
-            className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
-          >
-            + Nova tarefa
-          </button>
+            <h1 className="mt-1 text-3xl font-semibold text-white">
+              Kanban da Equipe
+            </h1>
+
+            <p className="mt-2 text-sm text-slate-400">
+              Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos das
+              atividades do time.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 px-6 py-4">
+            <button
+              onClick={() => setIsCreating(true)}
+              className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-500"
+            >
+              + Criar tarefa
+            </button>
+
+            <div className="flex h-10 w-72 items-center rounded-xl border border-[#2C2C2C] bg-[#111111] px-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="mr-2 h-4 w-4 text-slate-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
+                />
+              </svg>
+
+              <input
+                disabled
+                placeholder="Buscar tarefa..."
+                className="w-full bg-transparent text-sm text-slate-500 outline-none"
+              />
+            </div>
+          </div>
         </header>
 
         <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-[#2B2B2B] bg-[#181919] p-6">
@@ -317,96 +350,122 @@ export default function BoardPage() {
 
     {isCreating && (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-        <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-slate-700 bg-slate-950 p-6 shadow-2xl">
-          <div className="mb-6">
-            <p className="text-sm text-slate-400">Registro de atividade</p>
-            <h2 className="text-2xl font-bold">Criar Tarefa</h2>
+        <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[#2B2B2B] bg-[#181919] p-6 shadow-2xl">
+          <div className="mb-6 flex items-center gap-4">
+            <TaskIcon/>
+            <div className="mb-6">
+              <p className="text-sm text-slate-400">Registro de atividade</p>
+              <h2 className="text-3xl font-medium">Criar Tarefa</h2>
+            </div>
           </div>
 
           <form onSubmit={createTask} className="space-y-4">
             <div>
-              <label className="text-sm text-slate-400">Título</label>
               <input
                 required
                 value={form.title}
                 onChange={(event) =>
                   setForm({ ...form, title: event.target.value })
                 }
-                placeholder="Ex.: Revisar proposta do cliente"
-                className="mt-1 w-full border-b border-slate-700 bg-transparent px-1 py-3 text-lg outline-none placeholder:text-slate-600 focus:border-blue-500"
+                placeholder="Título da tarefa"
+                className="mt-1 w-full border-b border-blue-500 bg-transparent px-1 py-3 text-base outline-none placeholder:text-[#696969] "
               />
             </div>
 
             <div>
-              <label className="text-sm text-slate-400">Descrição</label>
               <textarea
                 value={form.description}
                 onChange={(event) =>
                   setForm({ ...form, description: event.target.value })
                 }
                 placeholder="Descreva rapidamente o que precisa ser feito..."
-                className="mt-1 min-h-24 w-full resize-none border-b border-slate-700 bg-transparent px-1 py-3 outline-none placeholder:text-slate-600 focus:border-blue-500"
+                className="mt-1  w-full text-base resize-none border-b border-[#2C2C2C] bg-transparent px-1 py-3 outline-none placeholder:text-[#696969] focus:border-white"
               />
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <label className="text-sm text-slate-400">Projeto</label>
-                <select
-                  required
+              <div className="w-full">
+                <label className="text-sm text-[#696969]">Projeto</label>
+                <Select
                   value={form.projectId}
-                  onChange={(event) =>
-                    setForm({ ...form, projectId: event.target.value })
+                  onValueChange={(value) =>
+                    setForm({ ...form, projectId: value })
                   }
-                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
                 >
-                  {projects.map((project) => (
-                    <option key={project.id} value={project.id}>
-                      {project.name}
-                    </option>
-                  ))}
-                </select>
+                  <SelectTrigger className="mt-1 h-11 w-full rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm text-white outline-none focus:border-white">
+                    <SelectValue placeholder="Selecione" />
+                  </SelectTrigger>
+
+                  <SelectContent>
+                    {projects.map((project) => (
+                      <SelectItem
+                        key={project.id}
+                        value={project.id}
+                      >
+                        {project.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div>
-                <label className="text-sm text-slate-400">Responsável</label>
-                <select
-                  required
-                  value={form.assigneeId}
-                  onChange={(event) =>
-                    setForm({ ...form, assigneeId: event.target.value })
-                  }
-                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                >
-                  {members.map((member) => (
-                    <option key={member.id} value={member.id}>
-                      {member.name}
-                    </option>
-                  ))}
-                </select>
+                <div className="w-full">
+                  <label className="text-sm text-[#696969]">Responsável</label>
+
+                  <Select
+                    value={form.assigneeId}
+                    onValueChange={(value) =>
+                      setForm({ ...form, assigneeId: value })
+                    }
+                  >
+                    <SelectTrigger className="mt-1 h-11 w-full rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm text-white outline-none focus:border-white">
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {members.map((member) => (
+                        <SelectItem
+                          key={member.id}
+                          value={member.id}
+                        >
+                          {member.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div>
-                <label className="text-sm text-slate-400">Prioridade</label>
-                <select
-                  value={form.priority}
-                  onChange={(event) =>
-                    setForm({
-                      ...form,
-                      priority: event.target.value as Priority,
-                    })
-                  }
-                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                >
-                  <option value="LOW">Baixa</option>
-                  <option value="MEDIUM">Média</option>
-                  <option value="HIGH">Alta</option>
-                  <option value="URGENT">Urgente</option>
-                </select>
+                <div className="w-full">
+                  <label className="text-sm text-[#696969]">Prioridade</label>
+
+                  <Select
+                    value={form.priority}
+                    onValueChange={(value) =>
+                      setForm({
+                        ...form,
+                        priority: value as Priority,
+                      })
+                    }
+                  >
+                    <SelectTrigger className="mt-1 h-11 w-full rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm text-white outline-none focus:border-white">
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      <SelectItem value="LOW">Baixa</SelectItem>
+                      <SelectItem value="MEDIUM">Média</SelectItem>
+                      <SelectItem value="HIGH">Alta</SelectItem>
+                      <SelectItem value="URGENT">Urgente</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
 
               <div>
-                <label className="text-sm text-slate-400">Prazo</label>
+                <label className="text-sm text-[#696969]">Prazo</label>
                 <input
                   required
                   type="date"
@@ -414,7 +473,8 @@ export default function BoardPage() {
                   onChange={(event) =>
                     setForm({ ...form, dueDate: event.target.value })
                   }
-                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                   className="mt-1 flex h-11 w-full items-center rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm leading-none text-white outline-none transition focus:border-white [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-60 [&::-webkit-calendar-picker-indicator]:invert"
+   
                 />
               </div>
             </div>
