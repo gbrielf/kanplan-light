@@ -1,6 +1,12 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 type SidebarItem = {
   label: string;
   locked?: boolean;
+  href?: string;
   badge?: number;
   active?: boolean;
   icon: React.ReactNode;
@@ -15,11 +21,17 @@ function LockedBadge({ badge }: { badge?: number }) {
 }
 
 function SidebarLink({ item }: { item: SidebarItem }) {
+  const pathname = usePathname();
+  const isActive =
+    item.href &&
+    (pathname === item.href ||
+      (item.href !== "/" && pathname.startsWith(item.href)));
+      
   const content = (
     <>
       <div className="flex items-center gap-3">
-        {item.icon}
-        <span>{item.label}</span>
+          {item.icon}
+          <span>{item.label}</span>
       </div>
 
       {item.locked && <LockedBadge badge={item.badge} />}
@@ -40,24 +52,27 @@ function SidebarLink({ item }: { item: SidebarItem }) {
         {content}
       </div>
     );
+    
   }
 
   return (
-    <a
-      href="#"
+    <Link
+      href={item.href ?? "#"}
       className={`flex items-center justify-between rounded-lg px-3 py-2 transition ${
-        item.active
+        isActive
           ? 'bg-white/10 text-white'
           : 'text-[#9E9E9E] hover:bg-white/5'
       }`}
     >
       {content}
-    </a>
+    </Link>
   );
 }
 
 export function Sidebar() {
   const iconClass = 'h-5 w-5 shrink-0';
+
+  const pathname = usePathname();
 
   const navItems: SidebarItem[] = [
     {
@@ -206,7 +221,31 @@ export function Sidebar() {
     },
     {
       label: 'Kanban',
-      active: true,
+      href: '/board',
+      icon: (
+        <svg
+          width="36"
+          height="34"
+          viewBox="0 0 36 34"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M3.25 4.05721V25.7437C3.25 25.7437 3.65238 26.6331 4.14286 26.9485C4.64305 27.2702 5.63095 27.2497 5.63095 27.2497H11.5833C11.5833 27.2497 12.3469 27.1689 12.7738 26.9485C13.3595 26.6461 13.9643 25.7437 13.9643 25.7437V4.05721C13.9643 4.05721 13.7366 3.22437 13.369 2.8524C12.8493 2.32636 11.5833 2.25 11.5833 2.25H5.63095C5.63095 2.25 4.36502 2.32636 3.84524 2.8524C3.47769 3.22437 3.25 4.05721 3.25 4.05721Z"
+            stroke="white"
+            strokeWidth="2"
+          />
+          <path
+            d="M17.5357 4.05721V16.7077C17.5357 16.7077 17.7634 17.5405 18.131 17.9125C18.6507 18.4385 19.9167 18.5149 19.9167 18.5149H25.869C25.869 18.5149 26.8643 18.303 27.3571 17.9125C27.8147 17.5499 28.25 16.7077 28.25 16.7077V4.05721C28.25 4.05721 28.0223 3.22437 27.6548 2.8524C27.135 2.32636 25.869 2.25 25.869 2.25H19.3214C19.3214 2.25 18.4985 2.48044 18.131 2.8524C17.7634 3.22437 17.5357 4.05721 17.5357 4.05721Z"
+            stroke="white"
+            strokeWidth="2"
+          />
+        </svg>
+      ),
+    },
+    {
+      label: 'Dashboard',
+      href: '/dashboard',
       icon: (
         <svg
           width="36"
@@ -339,7 +378,7 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="flex h-full-screen w-64 shrink-0 flex-col bg-[#1E1E1E] px-4 py-6">
+    <aside className="flex h-screen w-64 shrink-0 flex-col bg-[#1E1E1E] px-4 py-6">
       <div className="px-2">
         <h1 className="text-xl font-bold text-white">Kanplan.</h1>
       </div>
