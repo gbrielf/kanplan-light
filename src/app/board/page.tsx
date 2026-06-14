@@ -1,12 +1,12 @@
-"use client";
-import { TaskCard } from "@/components/kanban/task-card";
-import { KpiCard } from "@/components/kanban/kpi-card";
-import { Sidebar } from "@/components/kanban/side-bar";
+'use client';
+import { TaskCard } from '@/components/kanban/task-card';
+import { KpiCard } from '@/components/kanban/kpi-card';
+import { Sidebar } from '@/components/kanban/side-bar';
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from 'react';
 
-type TaskStatus = "TO_DO" | "IN_PROGRESS" | "VALIDATION" | "REVIEW" | "DONE";
-type Priority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
+type TaskStatus = 'TO_DO' | 'IN_PROGRESS' | 'VALIDATION' | 'REVIEW' | 'DONE';
+type Priority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
 
 type Task = {
   id: string;
@@ -53,26 +53,26 @@ type DashboardData = {
 };
 
 const columns: { status: TaskStatus; title: string }[] = [
-  { status: "TO_DO", title: "A iniciar" },
-  { status: "IN_PROGRESS", title: "Em andamento" },
-  { status: "VALIDATION", title: "Validação" },
-  { status: "REVIEW", title: "Revisão" },
-  { status: "DONE", title: "Concluído" },
+  { status: 'TO_DO', title: 'A iniciar' },
+  { status: 'IN_PROGRESS', title: 'Em andamento' },
+  { status: 'VALIDATION', title: 'Validação' },
+  { status: 'REVIEW', title: 'Revisão' },
+  { status: 'DONE', title: 'Concluído' },
 ];
 
 const nextStatus: Record<TaskStatus, TaskStatus | null> = {
-  TO_DO: "IN_PROGRESS",
-  IN_PROGRESS: "VALIDATION",
-  VALIDATION: "REVIEW",
-  REVIEW: "DONE",
+  TO_DO: 'IN_PROGRESS',
+  IN_PROGRESS: 'VALIDATION',
+  VALIDATION: 'REVIEW',
+  REVIEW: 'DONE',
   DONE: null,
 };
 
 const priorityLabel: Record<Priority, string> = {
-  LOW: "Baixa",
-  MEDIUM: "Média",
-  HIGH: "Alta",
-  URGENT: "Urgente",
+  LOW: 'Baixa',
+  MEDIUM: 'Média',
+  HIGH: 'Alta',
+  URGENT: 'Urgente',
 };
 
 const priorityWeight: Record<Priority, number> = {
@@ -84,7 +84,8 @@ const priorityWeight: Record<Priority, number> = {
 
 function sortTasksByPriorityAndDueDate(tasks: Task[]) {
   return [...tasks].sort((a, b) => {
-    const priorityDiff = priorityWeight[b.priority] - priorityWeight[a.priority];
+    const priorityDiff =
+      priorityWeight[b.priority] - priorityWeight[a.priority];
 
     if (priorityDiff !== 0) return priorityDiff;
 
@@ -98,26 +99,28 @@ export default function BoardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [isCreating, setIsCreating] = useState(false);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null
+  );
 
   const [form, setForm] = useState<CreateTaskForm>({
-    title: "",
-    description: "",
-    priority: "MEDIUM",
-    dueDate: "",
-    projectId: "",
-    assigneeId: "",
+    title: '',
+    description: '',
+    priority: 'MEDIUM',
+    dueDate: '',
+    projectId: '',
+    assigneeId: '',
   });
 
   async function loadDashboardData() {
-    const response = await fetch("/api/dashboard");
+    const response = await fetch('/api/dashboard');
     const data = await response.json();
 
     setDashboardData(data);
   }
 
   async function loadTasks() {
-    const response = await fetch("/api/tasks");
+    const response = await fetch('/api/tasks');
     const data = await response.json();
 
     setTasks(data);
@@ -126,8 +129,8 @@ export default function BoardPage() {
 
   async function loadFormData() {
     const [projectsResponse, membersResponse] = await Promise.all([
-        fetch("/api/projects"),
-        fetch("/api/members"),
+      fetch('/api/projects'),
+      fetch('/api/members'),
     ]);
 
     const projectsData = await projectsResponse.json();
@@ -137,9 +140,9 @@ export default function BoardPage() {
     setMembers(membersData);
 
     setForm((current) => ({
-        ...current,
-        projectId: projectsData[0]?.id ?? "",
-        assigneeId: membersData[0]?.id ?? "",
+      ...current,
+      projectId: projectsData[0]?.id ?? '',
+      assigneeId: membersData[0]?.id ?? '',
     }));
   }
 
@@ -149,9 +152,9 @@ export default function BoardPage() {
     if (!status) return;
 
     const response = await fetch(`/api/tasks/${task.id}`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ status }),
     });
@@ -193,21 +196,21 @@ export default function BoardPage() {
   async function createTask(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    await fetch("/api/tasks", {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
+    await fetch('/api/tasks', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(form),
     });
 
     setForm({
-        title: "",
-        description: "",
-        priority: "MEDIUM",
-        dueDate: "",
-        projectId: projects[0]?.id ?? "",
-        assigneeId: members[0]?.id ?? "",
+      title: '',
+      description: '',
+      priority: 'MEDIUM',
+      dueDate: '',
+      projectId: projects[0]?.id ?? '',
+      assigneeId: members[0]?.id ?? '',
     });
 
     setIsCreating(false);
@@ -216,7 +219,7 @@ export default function BoardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100">
+    <main className="min-h-screen bg-[#0B0B0B] text-slate-100">
       <div className="flex min-h-screen">
         <Sidebar />
         <section className="flex-1 p-8">
@@ -228,208 +231,212 @@ export default function BoardPage() {
               das atividades do time.
             </p>
             <button
-            onClick={() => setIsCreating(true)}
-            className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+              onClick={() => setIsCreating(true)}
+              className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
             >
-            + Nova tarefa
+              + Nova tarefa
             </button>
           </header>
-          
+
           {dashboardData && (
             <section className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-                <KpiCard
+              <KpiCard
                 title="Tarefas atrasadas"
                 value={dashboardData.kpis.overdueTasks}
                 description="exigem ação imediata"
                 variant="danger"
-                />
+              />
 
-                <KpiCard
+              <KpiCard
                 title="Prazos em risco"
                 value={dashboardData.kpis.tasksAtRisk}
                 description="vencem em até 48h"
                 variant="warning"
-                />
+              />
 
-                <KpiCard
+              <KpiCard
                 title="Sobrecarga"
                 value={dashboardData.kpis.overloadedMembers}
                 description="membros com alta carga"
                 variant="info"
-                />
+              />
 
-                <KpiCard
+              <KpiCard
                 title="Ociosos"
                 value={dashboardData.kpis.idleMembers}
                 description="capacidade disponível"
                 variant="neutral"
-                />
+              />
 
-                <KpiCard
+              <KpiCard
                 title="Concluídas"
                 value={dashboardData.kpis.completedThisWeek}
                 description="na semana"
                 variant="success"
-                />
+              />
             </section>
-            )}
+          )}
           {loading ? (
             <p className="text-slate-400">Carregando tarefas...</p>
           ) : (
             <div className="w-full overflow-x-auto pb-4">
-                <div className="grid w-max grid-cols-5 gap-4">
-                    {columns.map((column) => (
-                    <div
-                        key={column.status}
-                        className="flex min-h-[650px] w-80 flex-col rounded-2xl border border-slate-800 bg-slate-900/80 p-4 backdrop-blur-sm"
-                    >
-                      <div className="mb-4 flex items-center justify-between border-b border-slate-800 pb-3">
-                        <h3 className="font-semibold">{column.title}</h3>
-                        <span className="rounded-full bg-slate-800 px-2 py-1 text-xs text-slate-300">
-                          {tasksByStatus[column.status].length}
-                        </span>
-                      </div>
-                      <div className="space-y-3">
-                        {tasksByStatus[column.status].map((task) => (
-                          <TaskCard key={task.id} task={task} onAdvance={moveTask} />
-                        ))}
-                        {tasksByStatus[column.status].length === 0 && (
-                          <p className="rounded-xl border border-dashed border-slate-800 p-4 text-center text-sm text-slate-500">
-                            Nenhuma tarefa aqui.
-                          </p>
-                        )}
-                      </div>
+              <div className="grid w-max grid-cols-5 gap-4">
+                {columns.map((column) => (
+                  <div
+                    key={column.status}
+                    className="flex min-h-[650px] w-80 flex-col rounded-2xl border border-white bg-black-10 p-4 backdrop-blur-sm"
+                  >
+                    <div className="mb-4 flex items-center justify-between border-b border-slate-800 pb-3">
+                      <h3 className="font-semibold">{column.title}</h3>
+                      <span className="rounded-full bg-slate-800 px-2 py-1 text-xs text-slate-300">
+                        {tasksByStatus[column.status].length}
+                      </span>
                     </div>
-                  ))}
-                </div>
+                    <div className="space-y-3">
+                      {tasksByStatus[column.status].map((task) => (
+                        <TaskCard
+                          key={task.id}
+                          task={task}
+                          onAdvance={moveTask}
+                        />
+                      ))}
+                      {tasksByStatus[column.status].length === 0 && (
+                        <p className="rounded-xl border border-dashed border-slate-800 p-4 text-center text-sm text-slate-500">
+                          Nenhuma tarefa aqui.
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </section>
       </div>
       {isCreating && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-            <div className="w-full max-w-2xl rounded-2xl border border-slate-700 bg-slate-950 p-6 shadow-2xl">
+          <div className="w-full max-w-2xl rounded-2xl border border-slate-700 bg-slate-950 p-6 shadow-2xl">
             <div className="mb-6">
-                <p className="text-sm text-slate-400">Registro de atividade</p>
-                <h2 className="text-2xl font-bold">Criar Tarefa</h2>
+              <p className="text-sm text-slate-400">Registro de atividade</p>
+              <h2 className="text-2xl font-bold">Criar Tarefa</h2>
             </div>
 
             <form onSubmit={createTask} className="space-y-4">
-                <div>
+              <div>
                 <label className="text-sm text-slate-400">Título</label>
                 <input
-                    required
-                    value={form.title}
-                    onChange={(event) =>
+                  required
+                  value={form.title}
+                  onChange={(event) =>
                     setForm({ ...form, title: event.target.value })
-                    }
-                    placeholder="Ex.: Revisar proposta do cliente"
-                    className="mt-1 w-full border-b border-slate-700 bg-transparent px-1 py-3 text-lg outline-none placeholder:text-slate-600 focus:border-blue-500"
+                  }
+                  placeholder="Ex.: Revisar proposta do cliente"
+                  className="mt-1 w-full border-b border-slate-700 bg-transparent px-1 py-3 text-lg outline-none placeholder:text-slate-600 focus:border-blue-500"
                 />
-                </div>
+              </div>
 
-                <div>
+              <div>
                 <label className="text-sm text-slate-400">Descrição</label>
                 <textarea
-                    value={form.description}
-                    onChange={(event) =>
+                  value={form.description}
+                  onChange={(event) =>
                     setForm({ ...form, description: event.target.value })
-                    }
-                    placeholder="Descreva rapidamente o que precisa ser feito..."
-                    className="mt-1 min-h-24 w-full resize-none border-b border-slate-700 bg-transparent px-1 py-3 outline-none placeholder:text-slate-600 focus:border-blue-500"
+                  }
+                  placeholder="Descreva rapidamente o que precisa ser feito..."
+                  className="mt-1 min-h-24 w-full resize-none border-b border-slate-700 bg-transparent px-1 py-3 outline-none placeholder:text-slate-600 focus:border-blue-500"
                 />
-                </div>
+              </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                    <label className="text-sm text-slate-400">Projeto</label>
-                    <select
+                  <label className="text-sm text-slate-400">Projeto</label>
+                  <select
                     required
                     value={form.projectId}
                     onChange={(event) =>
-                        setForm({ ...form, projectId: event.target.value })
+                      setForm({ ...form, projectId: event.target.value })
                     }
                     className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                    >
+                  >
                     {projects.map((project) => (
-                        <option key={project.id} value={project.id}>
+                      <option key={project.id} value={project.id}>
                         {project.name}
-                        </option>
+                      </option>
                     ))}
-                    </select>
+                  </select>
                 </div>
 
                 <div>
-                    <label className="text-sm text-slate-400">Responsável</label>
-                    <select
+                  <label className="text-sm text-slate-400">Responsável</label>
+                  <select
                     required
                     value={form.assigneeId}
                     onChange={(event) =>
-                        setForm({ ...form, assigneeId: event.target.value })
+                      setForm({ ...form, assigneeId: event.target.value })
                     }
                     className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                    >
+                  >
                     {members.map((member) => (
-                        <option key={member.id} value={member.id}>
+                      <option key={member.id} value={member.id}>
                         {member.name}
-                        </option>
+                      </option>
                     ))}
-                    </select>
+                  </select>
                 </div>
 
                 <div>
-                    <label className="text-sm text-slate-400">Prioridade</label>
-                    <select
+                  <label className="text-sm text-slate-400">Prioridade</label>
+                  <select
                     value={form.priority}
                     onChange={(event) =>
-                        setForm({
+                      setForm({
                         ...form,
                         priority: event.target.value as Priority,
-                        })
+                      })
                     }
                     className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                    >
+                  >
                     <option value="LOW">Baixa</option>
                     <option value="MEDIUM">Média</option>
                     <option value="HIGH">Alta</option>
                     <option value="URGENT">Urgente</option>
-                    </select>
+                  </select>
                 </div>
 
                 <div>
-                    <label className="text-sm text-slate-400">Prazo</label>
-                    <input
+                  <label className="text-sm text-slate-400">Prazo</label>
+                  <input
                     required
                     type="date"
                     value={form.dueDate}
                     onChange={(event) =>
-                        setForm({ ...form, dueDate: event.target.value })
+                      setForm({ ...form, dueDate: event.target.value })
                     }
                     className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                    />
+                  />
                 </div>
-                </div>
+              </div>
 
-                <div className="flex justify-end gap-3 border-t border-slate-800 pt-5">
+              <div className="flex justify-end gap-3 border-t border-slate-800 pt-5">
                 <button
-                    type="button"
-                    onClick={() => setIsCreating(false)}
-                    className="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-900"
+                  type="button"
+                  onClick={() => setIsCreating(false)}
+                  className="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-900"
                 >
-                    Cancelar
+                  Cancelar
                 </button>
 
                 <button
-                    type="submit"
-                    className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+                  type="submit"
+                  className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
                 >
-                    Criar tarefa
+                  Criar tarefa
                 </button>
-                </div>
+              </div>
             </form>
-            </div>
+          </div>
         </div>
-        )}
+      )}
     </main>
   );
 }
