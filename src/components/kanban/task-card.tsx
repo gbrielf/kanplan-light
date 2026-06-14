@@ -55,16 +55,15 @@ const priorityLabel: Record<Priority, string> = {
   URGENT: 'Urgente',
 };
 
- export function TaskCard({
-    task,
-    members,
-    onAdvance,
-    onReassign,
-  }: TaskCardProps) {
+export function TaskCard({
+  task,
+  members,
+  onAdvance,
+  onReassign,
+}: TaskCardProps) {
   const isOverdue =
     task.status !== 'DONE' && new Date(task.dueDate) < new Date();
 
- 
   return (
     <article className="w-full max-w-full overflow-hidden rounded-2xl border border-[#2B2B2B] bg-[#0D0D0D] p-4 text-white shadow-md">
       <div className="mb-3 flex items-start justify-between gap-3">
@@ -123,26 +122,26 @@ const priorityLabel: Record<Priority, string> = {
         <p className="line-clamp-4 text-sm leading-6 text-slate-100">
           {task.description || 'Sem descrição informada para esta tarefa.'}
         </p>
-        </div>
-        <div className="mt-4 border-t border-white/10 pt-3 text-xs text-slate-400">
-              <p>{task.project.name}</p>
-              <div className="mt-2">
-                <label className="mb-1 block text-xs text-slate-500">
-                  Responsável
-                </label>
-
-                  <select
-                    value={task.assignee?.id ?? ""}
-                    onChange={(event) => onReassign(task.id, event.target.value)}
-                    className="w-full max-w-full rounded-lg border border-[#2B2B2B] bg-[#0B0B0B] px-3 py-2 text-xs text-white"
-                  >
-                    {members.map((member) => (
-                      <option key={member.id} value={member.id}>
-                        {member.name}
-                      </option>
-                    ))}
-                  </select>
       </div>
+      <div className="mt-4 border-t border-white/10 pt-3 text-xs text-slate-400">
+        <p>{task.project.name}</p>
+        <div className="mt-2">
+          <label className="mb-1 block text-xs text-slate-500">
+            Responsável
+          </label>
+
+          <select
+            value={task.assignee?.id ?? ''}
+            onChange={(event) => onReassign(task.id, event.target.value)}
+            className="w-full max-w-full rounded-lg border border-[#2B2B2B] bg-[#0B0B0B] px-3 py-2 text-xs text-white"
+          >
+            {members.map((member) => (
+              <option key={member.id} value={member.id}>
+                {member.name}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
     </article>
   );

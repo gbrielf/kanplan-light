@@ -2,7 +2,13 @@
 import { TaskCard } from '@/components/kanban/task-card';
 import { KpiCard } from '@/components/kanban/kpi-card';
 import { Sidebar } from '@/components/kanban/side-bar';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
 import { useEffect, useMemo, useState } from 'react';
 import { TaskIcon } from '@/components/icons/task-icon';
@@ -103,7 +109,9 @@ export default function BoardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [isCreating, setIsCreating] = useState(false);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
+    null
+  );
 
   const [form, setForm] = useState<CreateTaskForm>({
     title: '',
@@ -235,8 +243,8 @@ export default function BoardPage() {
               Kanban da Equipe
             </h1>
             <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
-              Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos das
-              atividades do time.
+              Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos
+              das atividades do time.
             </p>
           </header>
 
@@ -245,7 +253,7 @@ export default function BoardPage() {
               onClick={() => setIsCreating(true)}
               className="flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
             >
-              <TaskIcon className='h-6 w-6'/>
+              <TaskIcon className="h-6 w-6" />
               Criar tarefa
             </button>
 

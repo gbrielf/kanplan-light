@@ -14,12 +14,12 @@ O foco do produto é oferecer uma experiência simples, visual e orientada à to
 
 Permitir que gestores consigam:
 
-* Centralizar o trabalho da equipe;
-* Acompanhar atividades e projetos;
-* Identificar riscos de atraso antecipadamente;
-* Monitorar a capacidade operacional dos membros;
-* Reatribuir tarefas entre responsáveis;
-* Tomar decisões baseadas em indicadores.
+- Centralizar o trabalho da equipe;
+- Acompanhar atividades e projetos;
+- Identificar riscos de atraso antecipadamente;
+- Monitorar a capacidade operacional dos membros;
+- Reatribuir tarefas entre responsáveis;
+- Tomar decisões baseadas em indicadores.
 
 ---
 
@@ -33,11 +33,11 @@ Ao invés de implementar um framework ágil completo, a solução busca resolver
 
 ### Princípios adotados
 
-* Visualização clara do trabalho;
-* Fluxo contínuo de atividades;
-* Gestão baseada em indicadores;
-* Identificação antecipada de riscos;
-* Simplicidade de uso.
+- Visualização clara do trabalho;
+- Fluxo contínuo de atividades;
+- Gestão baseada em indicadores;
+- Identificação antecipada de riscos;
+- Simplicidade de uso.
 
 ---
 
@@ -82,16 +82,17 @@ Ao invés de implementar um framework ágil completo, a solução busca resolver
 Tela voltada para o acompanhamento da operação e apoio à decisão do gestor.
 
 ![alt text](<Screenshot from 2026-06-14 13-48-38.png>)
->imagem do dashboard gerencial com KPIs e cards de membros da equipe
+
+> imagem do dashboard gerencial com KPIs e cards de membros da equipe
 
 ### KPIs disponíveis
 
-* Tarefas atrasadas;
-* Tarefas próximas do vencimento;
-* Membros sobrecarregados;
-* Membros ociosos;
-* Tarefas concluídas na semana;
-* Total de projetos e tarefas na base.
+- Tarefas atrasadas;
+- Tarefas próximas do vencimento;
+- Membros sobrecarregados;
+- Membros ociosos;
+- Tarefas concluídas na semana;
+- Total de projetos e tarefas na base.
 
 ---
 
@@ -99,19 +100,19 @@ Tela voltada para o acompanhamento da operação e apoio à decisão do gestor.
 
 O dashboard apresenta uma visão consolidada de cada membro da equipe, incluindo:
 
-* Nome;
-* Função;
-* Quantidade de tarefas ativas;
-* Quantidade de tarefas atrasadas;
-* Score de carga;
-* Status operacional.
+- Nome;
+- Função;
+- Quantidade de tarefas ativas;
+- Quantidade de tarefas atrasadas;
+- Score de carga;
+- Status operacional.
 
 ### Status de capacidade
 
-* Ocioso;
-* Saudável;
-* Atenção;
-* Sobrecarregado.
+- Ocioso;
+- Saudável;
+- Atenção;
+- Sobrecarregado.
 
 Além disso, cada card de membro pode ser expandido para exibir as tarefas atribuídas naquele momento.
 
@@ -123,8 +124,8 @@ O sistema permite reatribuir tarefas para outro membro da equipe.
 
 Essa funcionalidade está disponível:
 
-* No quadro Kanban, diretamente nos cards de tarefa.
-* Na tela de Dashboard, dentro da visão expandida de cada membro;
+- No quadro Kanban, diretamente nos cards de tarefa.
+- Na tela de Dashboard, dentro da visão expandida de cada membro;
 
 O objetivo é permitir que o gestor identifique uma sobrecarga e consiga agir imediatamente, sem precisar sair da tela atual.
 
@@ -135,7 +136,8 @@ O objetivo é permitir que o gestor identifique uma sobrecarga e consiga agir im
 Tela operacional para acompanhamento do fluxo das tarefas.
 
 ![alt text](<Screenshot from 2026-06-14 13-48-31.png>)
->imagem do quadro kanban com colunas: A iniciar, Em andamento, Validação, Revisão e Concluído
+
+> imagem do quadro kanban com colunas: A iniciar, Em andamento, Validação, Revisão e Concluído
 
 ### Fluxo das tarefas
 
@@ -153,21 +155,21 @@ O sistema permite cadastrar, acompanhar, atualizar status e reatribuir tarefas.
 
 Cada tarefa possui:
 
-* Título;
-* Descrição;
-* Responsável;
-* Prioridade;
-* Status;
-* Prazo;
-* Projeto associado;
-* Data de criação.
+- Título;
+- Descrição;
+- Responsável;
+- Prioridade;
+- Status;
+- Prazo;
+- Projeto associado;
+- Data de criação.
 
 ### Prioridades disponíveis
 
-* Baixa;
-* Média;
-* Alta;
-* Urgente.
+- Baixa;
+- Média;
+- Alta;
+- Urgente.
 
 A prioridade é utilizada tanto para organização visual quanto para apoiar o cálculo da capacidade da equipe.
 
@@ -179,19 +181,19 @@ As tarefas são organizadas por projeto.
 
 Cada projeto possui:
 
-* Nome;
-* Descrição;
-* Data de início;
-* Data prevista de conclusão;
-* Status;
-* Prioridade.
+- Nome;
+- Descrição;
+- Data de início;
+- Data prevista de conclusão;
+- Status;
+- Prioridade.
 
 ### Status disponíveis
 
-* Planejamento;
-* Ativo;
-* Em risco;
-* Concluído.
+- Planejamento;
+- Ativo;
+- Em risco;
+- Concluído.
 
 ---
 
@@ -201,11 +203,11 @@ O sistema apresenta alertas visuais e indicadores para apoiar ação preventiva.
 
 Exemplos:
 
-* Tarefas atrasadas;
-* Tarefas próximas do vencimento;
-* Projetos em risco;
-* Membros sobrecarregados;
-* Membros com baixa carga.
+- Tarefas atrasadas;
+- Tarefas próximas do vencimento;
+- Projetos em risco;
+- Membros sobrecarregados;
+- Membros com baixa carga.
 
 O objetivo é permitir que o gestor aja antes que os problemas impactem clientes ou entregas.
 
@@ -312,11 +314,11 @@ src/
 
 ### Camadas principais
 
-* **app/api:** rotas HTTP da aplicação;
-* **repositories:** comunicação com o banco de dados via Prisma;
-* **services:** regras de negócio e cálculos da aplicação;
-* **components:** componentes visuais reutilizáveis;
-* **seed:** dados iniciais para demonstração.
+- **app/api:** rotas HTTP da aplicação;
+- **repositories:** comunicação com o banco de dados via Prisma;
+- **services:** regras de negócio e cálculos da aplicação;
+- **components:** componentes visuais reutilizáveis;
+- **seed:** dados iniciais para demonstração.
 
 ---
 
@@ -324,9 +326,9 @@ src/
 
 Entidades principais:
 
-* Project;
-* Member;
-* Task.
+- Project;
+- Member;
+- Task.
 
 Relacionamentos:
 
@@ -344,12 +346,12 @@ Uma tarefa pertence a um projeto e possui um membro responsável.
 
 ## 🛠️ Tecnologias Utilizadas
 
-* Next.js;
-* TypeScript;
-* Tailwind CSS;
-* shadcn/ui;
-* Prisma ORM;
-* SQLite.
+- Next.js;
+- TypeScript;
+- Tailwind CSS;
+- shadcn/ui;
+- Prisma ORM;
+- SQLite.
 
 ---
 
@@ -359,17 +361,18 @@ A aplicação é entregue com dados previamente carregados por seed.
 
 Os dados incluem:
 
-* Projetos fictícios;
-* Equipe fictícia;
-* Tarefas distribuídas;
-* Cenários de atraso;
-* Cenários de sobrecarga;
-* Cenários de ociosidade;
-* Projetos em risco.
+- Projetos fictícios;
+- Equipe fictícia;
+- Tarefas distribuídas;
+- Cenários de atraso;
+- Cenários de sobrecarga;
+- Cenários de ociosidade;
+- Projetos em risco.
 
 O objetivo é permitir a avaliação completa da solução sem necessidade de cadastro manual.
 
 ---
+
 ## 🐳 Dev Container
 
 O projeto possui configuração de Dev Container para facilitar a execução em ambiente padronizado.
@@ -396,10 +399,10 @@ npm run dev
 
 ## Requisitos
 
-* Node.js;
-* npm;
-* Prisma;
-* SQLite.
+- Node.js;
+- npm;
+- Prisma;
+- SQLite.
 
 ---
 
@@ -463,19 +466,19 @@ http://localhost:3000
 
 Por restrição de prazo, algumas funcionalidades foram propositalmente deixadas fora do MVP:
 
-* Scrum completo;
-* Sprint Planning funcional;
-* User Stories;
-* Backlog estruturado;
-* Autenticação;
-* Gestão avançada de permissões;
-* Notificações em tempo real;
-* Comentários em tarefas;
-* Histórico de atividades;
-* Drag and Drop no Kanban;
-* Multi-organização;
-* Integrações externas;
-* Dashboard avançado por projeto.
+- Scrum completo;
+- Sprint Planning funcional;
+- User Stories;
+- Backlog estruturado;
+- Autenticação;
+- Gestão avançada de permissões;
+- Notificações em tempo real;
+- Comentários em tarefas;
+- Histórico de atividades;
+- Drag and Drop no Kanban;
+- Multi-organização;
+- Integrações externas;
+- Dashboard avançado por projeto.
 
 A prioridade foi entregar uma solução funcional, apresentável e alinhada às necessidades centrais do problema proposto.
 
@@ -483,18 +486,18 @@ A prioridade foi entregar uma solução funcional, apresentável e alinhada às 
 
 ## 🔮 Evoluções Futuras
 
-* Drag and Drop completo no quadro Kanban;
-* Comentários em tarefas;
-* Etiquetas personalizadas;
-* Histórico de movimentação;
-* Dashboard por projeto;
-* Filtros avançados por responsável, projeto e prioridade;
-* Autenticação;
-* Permissões por perfil;
-* Notificações;
-* Integração com calendário;
-* Relatórios exportáveis;
-* Métricas históricas de produtividade.
+- Drag and Drop completo no quadro Kanban;
+- Comentários em tarefas;
+- Etiquetas personalizadas;
+- Histórico de movimentação;
+- Dashboard por projeto;
+- Filtros avançados por responsável, projeto e prioridade;
+- Autenticação;
+- Permissões por perfil;
+- Notificações;
+- Integração com calendário;
+- Relatórios exportáveis;
+- Métricas históricas de produtividade.
 
 ---
 
@@ -502,14 +505,14 @@ A prioridade foi entregar uma solução funcional, apresentável e alinhada às 
 
 O MVP entregue permite:
 
-* Visualizar tarefas em quadro Kanban;
-* Criar novas tarefas;
-* Avançar tarefas no fluxo;
-* Reatribuir tarefas;
-* Visualizar KPIs gerenciais;
-* Identificar atrasos e riscos;
-* Identificar sobrecarga e ociosidade;
-* Acompanhar saúde dos projetos;
-* Utilizar dados de demonstração via seed.
+- Visualizar tarefas em quadro Kanban;
+- Criar novas tarefas;
+- Avançar tarefas no fluxo;
+- Reatribuir tarefas;
+- Visualizar KPIs gerenciais;
+- Identificar atrasos e riscos;
+- Identificar sobrecarga e ociosidade;
+- Acompanhar saúde dos projetos;
+- Utilizar dados de demonstração via seed.
 
 O Kanplan Light entrega uma base funcional para gestão visual do trabalho, com foco em simplicidade, clareza e tomada de decisão.

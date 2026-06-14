@@ -1,7 +1,7 @@
-"use client";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 type SidebarItem = {
   label: string;
@@ -25,13 +25,13 @@ function SidebarLink({ item }: { item: SidebarItem }) {
   const isActive =
     item.href &&
     (pathname === item.href ||
-      (item.href !== "/" && pathname.startsWith(item.href)));
-      
+      (item.href !== '/' && pathname.startsWith(item.href)));
+
   const content = (
     <>
       <div className="flex items-center gap-3">
-          {item.icon}
-          <span>{item.label}</span>
+        {item.icon}
+        <span>{item.label}</span>
       </div>
 
       {item.locked && <LockedBadge badge={item.badge} />}
@@ -52,16 +52,13 @@ function SidebarLink({ item }: { item: SidebarItem }) {
         {content}
       </div>
     );
-    
   }
 
   return (
     <Link
-      href={item.href ?? "#"}
+      href={item.href ?? '#'}
       className={`flex items-center justify-between rounded-lg px-3 py-2 transition ${
-        isActive
-          ? 'bg-white/10 text-white'
-          : 'text-[#9E9E9E] hover:bg-white/5'
+        isActive ? 'bg-white/10 text-white' : 'text-[#9E9E9E] hover:bg-white/5'
       }`}
     >
       {content}
@@ -247,11 +244,41 @@ export function Sidebar() {
       label: 'Dashboard',
       href: '/dashboard',
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 3H3V12H10V3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M21 3H14V8H21V3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M21 12H14V21H21V12Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M10 16H3V21H10V16Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 3H3V12H10V3Z"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M21 3H14V8H21V3Z"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M21 12H14V21H21V12Z"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M10 16H3V21H10V16Z"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
       ),
     },

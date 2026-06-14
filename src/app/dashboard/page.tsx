@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { Sidebar } from "@/components/kanban/side-bar";
-import { KpiCard } from "@/components/kanban/kpi-card";
+import { useEffect, useState } from 'react';
+import { Sidebar } from '@/components/kanban/side-bar';
+import { KpiCard } from '@/components/kanban/kpi-card';
 
-type MemberStatus = "IDLE" | "HEALTHY" | "ATTENTION" | "OVERLOADED";
-type ProjectStatus = "PLANNING" | "ACTIVE" | "AT_RISK" | "COMPLETED";
+type MemberStatus = 'IDLE' | 'HEALTHY' | 'ATTENTION' | 'OVERLOADED';
+type ProjectStatus = 'PLANNING' | 'ACTIVE' | 'AT_RISK' | 'COMPLETED';
 
 type MemberCapacity = {
   id: string;
@@ -72,35 +72,35 @@ type DashboardData = {
 };
 
 const memberStatusLabel: Record<MemberStatus, string> = {
-  IDLE: "Ocioso",
-  HEALTHY: "Saudável",
-  ATTENTION: "Atenção",
-  OVERLOADED: "Sobrecarregado",
+  IDLE: 'Ocioso',
+  HEALTHY: 'Saudável',
+  ATTENTION: 'Atenção',
+  OVERLOADED: 'Sobrecarregado',
 };
 
 const memberStatusClass: Record<MemberStatus, string> = {
-  IDLE: "bg-sky-500/10 text-sky-400 border border-sky-500/20",
-  HEALTHY: "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
-  ATTENTION: "bg-amber-500/10 text-amber-400 border border-amber-500/20",
-  OVERLOADED: "bg-rose-500/10 text-rose-400 border border-rose-500/20",
+  IDLE: 'bg-sky-500/10 text-sky-400 border border-sky-500/20',
+  HEALTHY: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
+  ATTENTION: 'bg-amber-500/10 text-amber-400 border border-amber-500/20',
+  OVERLOADED: 'bg-rose-500/10 text-rose-400 border border-rose-500/20',
 };
 
 const projectStatusLabel: Record<ProjectStatus, string> = {
-  PLANNING: "Planejamento",
-  ACTIVE: "Ativo",
-  AT_RISK: "Em risco",
-  COMPLETED: "Concluído",
+  PLANNING: 'Planejamento',
+  ACTIVE: 'Ativo',
+  AT_RISK: 'Em risco',
+  COMPLETED: 'Concluído',
 };
 
 const projectStatusClass: Record<ProjectStatus, string> = {
-  PLANNING: "bg-violet-500/10 text-violet-400",
-  ACTIVE: "bg-emerald-500/10 text-emerald-400",
-  AT_RISK: "bg-rose-500/10 text-rose-400",
-  COMPLETED: "bg-zinc-500/10 text-zinc-400",
+  PLANNING: 'bg-violet-500/10 text-violet-400',
+  ACTIVE: 'bg-emerald-500/10 text-emerald-400',
+  AT_RISK: 'bg-rose-500/10 text-rose-400',
+  COMPLETED: 'bg-zinc-500/10 text-zinc-400',
 };
 
 function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("pt-BR");
+  return new Date(date).toLocaleDateString('pt-BR');
 }
 
 export default function DashboardPage() {
@@ -112,7 +112,7 @@ export default function DashboardPage() {
   }, []);
 
   async function loadDashboard() {
-    const response = await fetch("/api/dashboard");
+    const response = await fetch('/api/dashboard');
     const dashboard = await response.json();
     setData(dashboard);
   }
@@ -199,7 +199,7 @@ export default function DashboardPage() {
                         const memberTasks = data.tasks.filter(
                           (task) =>
                             task.assignee.id === member.id &&
-                            task.status !== "DONE"
+                            task.status !== 'DONE'
                         );
                         const isExpanded = expandedMemberId === member.id;
 
@@ -215,7 +215,7 @@ export default function DashboardPage() {
                                   {member.name}
                                 </p>
                                 <p className="mt-0.5 text-xs text-zinc-600">
-                                  {member.role ?? "Sem função"}
+                                  {member.role ?? 'Sem função'}
                                 </p>
                               </div>
 
@@ -224,13 +224,13 @@ export default function DashboardPage() {
                                 <p>
                                   <span className="font-medium text-zinc-300">
                                     {member.activeTasks}
-                                  </span>{" "}
+                                  </span>{' '}
                                   tarefas ativas
                                 </p>
                                 <p>
                                   <span className="font-medium text-rose-400">
                                     {member.overdueTasks}
-                                  </span>{" "}
+                                  </span>{' '}
                                   atrasadas
                                 </p>
                               </div>
@@ -272,7 +272,7 @@ export default function DashboardPage() {
                                 }
                                 className="rounded-lg border border-white/8 px-3 py-2 text-xs font-medium text-zinc-400 transition hover:border-white/20 hover:text-white"
                               >
-                                {isExpanded ? "Ocultar" : "Ver tarefas"}
+                                {isExpanded ? 'Ocultar' : 'Ver tarefas'}
                               </button>
                             </div>
 
@@ -305,10 +305,10 @@ export default function DashboardPage() {
                                               await fetch(
                                                 `/api/tasks/${task.id}`,
                                                 {
-                                                  method: "PATCH",
+                                                  method: 'PATCH',
                                                   headers: {
-                                                    "Content-Type":
-                                                      "application/json",
+                                                    'Content-Type':
+                                                      'application/json',
                                                   },
                                                   body: JSON.stringify({
                                                     assigneeId:
@@ -332,7 +332,7 @@ export default function DashboardPage() {
                                           {task.project.name}
                                         </p>
                                         <p className="mt-0.5 text-xs text-zinc-600">
-                                          {task.status} ·{" "}
+                                          {task.status} ·{' '}
                                           {formatDate(task.dueDate)}
                                         </p>
                                       </div>
@@ -424,10 +424,10 @@ export default function DashboardPage() {
                   <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                     {data.projects.map((project) => {
                       const openTasks =
-                        project.status === "COMPLETED"
+                        project.status === 'COMPLETED'
                           ? 0
                           : project.tasks.filter(
-                              (task) => task.status !== "DONE"
+                              (task) => task.status !== 'DONE'
                             ).length;
 
                       return (
@@ -449,11 +449,11 @@ export default function DashboardPage() {
                           <p className="text-xs text-zinc-600">
                             <span className="font-medium text-zinc-300">
                               {openTasks}
-                            </span>{" "}
+                            </span>{' '}
                             tarefas abertas
                           </p>
                           <p className="mt-0.5 text-xs text-zinc-600">
-                            Prazo:{" "}
+                            Prazo:{' '}
                             <span className="text-zinc-400">
                               {formatDate(project.dueDate)}
                             </span>
