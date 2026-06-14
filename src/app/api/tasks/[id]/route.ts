@@ -1,5 +1,5 @@
-import { TaskStatus } from "@prisma/client";
-import { taskService } from "@/services/task.service";
+import { TaskStatus } from '@prisma/client';
+import { taskService } from '@/services/task.service';
 
 type Params = {
   params: Promise<{

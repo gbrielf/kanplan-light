@@ -1,5 +1,5 @@
-import { Priority, TaskStatus } from "@prisma/client";
-import { taskRepository } from "@/repositories/task.repository";
+import { Priority, TaskStatus } from '@prisma/client';
+import { taskRepository } from '@/repositories/task.repository';
 
 type CreateTaskInput = {
   title: string;
