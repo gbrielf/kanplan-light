@@ -1,15 +1,5 @@
-import { TaskIcon } from '@/components/icons/task-icon';
-import { PriorityBars } from '@/components/icons/priority-bars';
-
-type TaskStatus = 'TO_DO' | 'IN_PROGRESS' | 'VALIDATION' | 'REVIEW' | 'DONE';
-type Priority = 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
-
-const priorityColor = {
-  LOW: 'text-slate-400',
-  MEDIUM: 'text-yellow-400',
-  HIGH: 'text-orange-400',
-  URGENT: 'text-red-500',
-};
+type TaskStatus = "TO_DO" | "IN_PROGRESS" | "VALIDATION" | "REVIEW" | "DONE";
+type Priority = "LOW" | "MEDIUM" | "HIGH" | "URGENT";
 
 type Task = {
   id: string;
@@ -18,7 +8,6 @@ type Task = {
   status: TaskStatus;
   priority: Priority;
   dueDate: string;
-  createdAt: string;
   project: {
     name: string;
   };
@@ -33,89 +22,84 @@ type TaskCardProps = {
 };
 
 const nextStatus: Record<TaskStatus, TaskStatus | null> = {
-  TO_DO: 'IN_PROGRESS',
-  IN_PROGRESS: 'VALIDATION',
-  VALIDATION: 'REVIEW',
-  REVIEW: 'DONE',
+  TO_DO: "IN_PROGRESS",
+  IN_PROGRESS: "VALIDATION",
+  VALIDATION: "REVIEW",
+  REVIEW: "DONE",
   DONE: null,
 };
 
 const priorityLabel: Record<Priority, string> = {
-  LOW: 'Baixa',
-  MEDIUM: 'Média',
-  HIGH: 'Alta',
-  URGENT: 'Urgente',
+  LOW: "Baixa",
+  MEDIUM: "Média",
+  HIGH: "Alta",
+  URGENT: "Urgente",
+};
+
+const priorityStyles: Record<Priority, string> = {
+  LOW: "bg-slate-800 text-slate-300",
+  MEDIUM: "bg-yellow-950 text-yellow-300",
+  HIGH: "bg-orange-950 text-orange-300",
+  URGENT: "bg-red-950 text-red-300",
 };
 
 export function TaskCard({ task, onAdvance }: TaskCardProps) {
   const isOverdue =
-    task.status !== 'DONE' && new Date(task.dueDate) < new Date();
+    task.status !== "DONE" && new Date(task.dueDate) < new Date();
 
   return (
-    <article className="w-72 rounded-2xl border border-[#2B2B2B] bg-[#0D0D0D] p-4 text-white shadow-md">
-      <div className="mb-3 flex items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
-          <TaskIcon className="text-red-500" />
+    <article className="rounded-xl border border-slate-800 bg-slate-950 p-4 shadow-sm transition hover:border-slate-700">
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <span
+          className={`rounded-full px-2 py-1 text-xs font-semibold ${priorityStyles[task.priority]}`}
+        >
+          {priorityLabel[task.priority]}
+        </span>
+
+        <span className="text-xs text-slate-500">
+          📅 {new Date(task.dueDate).toLocaleDateString("pt-BR")}
+        </span>
+      </div>
+
+      <h4 className="font-semibold leading-snug">{task.title}</h4>
+
+      {isOverdue && (
+        <p className="mt-2 text-xs font-medium text-red-400">
+          ⚠ Prazo vencido
+        </p>
+      )}
+
+      {task.description && (
+        <p className="mt-2 line-clamp-2 text-sm text-slate-400">
+          {task.description}
+        </p>
+      )}
+
+      <div className="mt-4 rounded-lg border border-slate-800 bg-slate-900/60 p-3 text-xs text-slate-400">
+        <p>
+          <span className="text-slate-500">Projeto:</span> {task.project.name}
+        </p>
+
+        <div className="mt-3 flex items-center gap-2">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-700 text-xs font-bold text-slate-200">
+            {task.assignee.name.charAt(0)}
+          </div>
 
           <div>
-            <h4 className="text-lg font-semibold leading-tight">
-              {task.title}
-            </h4>
-
-            <p className="text-sm text-slate-400">
-              {priorityLabel[task.priority]}
-            </p>
+            <p className="text-slate-500">Responsável</p>
+            <p className="text-sm text-slate-200">{task.assignee.name}</p>
           </div>
         </div>
-
-        <div className="flex flex-col items-center justify-center gap-2">
-          {nextStatus[task.status] && (
-            <button
-              onClick={() => onAdvance(task)}
-              title="Avançar tarefa"
-              className="rounded-lg border border-white/20 px-2 py-1 text-xs text-slate-300 transition hover:border-white hover:text-white"
-            >
-              Avançar
-            </button>
-          )}
-        </div>
       </div>
 
-      <div className="space-y-2 text-sm">
-        <p>
-          <span className="text-slate-300">Data de criação</span>{' '}
-          <span className="text-slate-500">
-            {new Date(task.createdAt).toLocaleDateString('pt-BR')}
-          </span>
-        </p>
-
-        <p>
-          <span className="text-slate-300">Prazo</span>{' '}
-          <span className={isOverdue ? 'text-red-400' : 'text-slate-400'}>
-            {new Date(task.dueDate).toLocaleDateString('pt-BR')}
-          </span>
-        </p>
-
-        <div className="flex items-center gap-2">
-          <span className="text-slate-300">Prioridade</span>
-          <PriorityBars priority={task.priority} />
-        </div>
-      </div>
-
-      <div className="mt-3">
-        <p className="mb-2 inline-block border-b border-white text-sm font-medium">
-          Contexto
-        </p>
-
-        <p className="line-clamp-4 text-sm leading-6 text-slate-100">
-          {task.description || 'Sem descrição informada para esta tarefa.'}
-        </p>
-      </div>
-
-      <div className="mt-4 border-t border-white/10 pt-3 text-xs text-slate-400">
-        <p>{task.project.name}</p>
-        <p>{task.assignee.name}</p>
-      </div>
+      {nextStatus[task.status] && (
+        <button
+          onClick={() => onAdvance(task)}
+          className="mt-4 w-full rounded-lg bg-slate-100 px-3 py-2 text-sm font-medium text-slate-950 transition hover:bg-white"
+        >
+          Avançar
+        </button>
+      )}
     </article>
   );
 }

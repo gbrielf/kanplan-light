@@ -14,11 +14,11 @@ O foco do produto é oferecer uma experiência simples, intuitiva e orientada à
 
 Permitir que gestores:
 
-- Centralizem o trabalho da equipe
-- Acompanhem atividades e projetos
-- Identifiquem riscos de atraso antecipadamente
-- Monitorem a capacidade operacional da equipe
-- Tomem decisões baseadas em indicadores
+* Centralizem o trabalho da equipe
+* Acompanhem atividades e projetos
+* Identifiquem riscos de atraso antecipadamente
+* Monitorem a capacidade operacional da equipe
+* Tomem decisões baseadas em indicadores
 
 ---
 
@@ -32,11 +32,11 @@ Ao invés de implementar um framework ágil completo, a solução busca resolver
 
 Princípios adotados:
 
-- Visualização clara do trabalho
-- Fluxo contínuo de atividades
-- Gestão baseada em indicadores
-- Identificação antecipada de riscos
-- Simplicidade de uso
+* Visualização clara do trabalho
+* Fluxo contínuo de atividades
+* Gestão baseada em indicadores
+* Identificação antecipada de riscos
+* Simplicidade de uso
 
 ---
 
@@ -90,12 +90,12 @@ Tela principal da aplicação contendo visão consolidada da operação.
 
 ### KPIs
 
-- Tarefas atrasadas
-- Tarefas próximas do vencimento
-- Capacidade comprometida da equipe
-- Pessoas ociosas
-- Tarefas concluídas na semana
-- Tempo médio de conclusão
+* Tarefas atrasadas
+* Tarefas próximas do vencimento
+* Capacidade comprometida da equipe
+* Pessoas ociosas
+* Tarefas concluídas na semana
+* Tempo médio de conclusão
 
 ---
 
@@ -103,10 +103,10 @@ Tela principal da aplicação contendo visão consolidada da operação.
 
 Painel contendo:
 
-- Quantidade de tarefas atrasadas
-- Quantidade de tarefas em risco
-- Capacidade comprometida
-- Produtividade semanal
+* Quantidade de tarefas atrasadas
+* Quantidade de tarefas em risco
+* Capacidade comprometida
+* Produtividade semanal
 
 ---
 
@@ -116,8 +116,8 @@ Visualizações gráficas para acompanhamento do andamento da equipe.
 
 ### Indicadores
 
-- Evolução de tarefas concluídas
-- Quantidade de tarefas restantes
+* Evolução de tarefas concluídas
+* Quantidade de tarefas restantes
 
 Esses gráficos foram inspirados em práticas ágeis de acompanhamento de fluxo de trabalho, porém adaptados para um contexto simplificado de gestão.
 
@@ -129,18 +129,18 @@ Permite organizar tarefas por contexto de entrega.
 
 Cada projeto possui:
 
-- Nome
-- Descrição
-- Data de início
-- Data prevista de conclusão
-- Status
+* Nome
+* Descrição
+* Data de início
+* Data prevista de conclusão
+* Status
 
 Status disponíveis:
 
-- Planejamento
-- Ativo
-- Em risco
-- Concluído
+* Planejamento
+* Ativo
+* Em risco
+* Concluído
 
 ---
 
@@ -150,14 +150,14 @@ Permite cadastrar, acompanhar e atualizar atividades da equipe.
 
 Cada tarefa possui:
 
-- Título
-- Descrição
-- Responsável
-- Prioridade
-- Status
-- Prazo
-- Projeto associado
-- Data de criação
+* Título
+* Descrição
+* Responsável
+* Prioridade
+* Status
+* Prazo
+* Projeto associado
+* Data de criação
 
 ### Fluxo Kanban
 
@@ -167,10 +167,10 @@ A iniciar → Em andamento → Validação → Revisão → Concluído
 
 ### Prioridades
 
-- Baixa
-- Média
-- Alta
-- Urgente
+* Baixa
+* Média
+* Alta
+* Urgente
 
 A prioridade é utilizada para apoiar a organização visual das atividades e o cálculo dos indicadores de capacidade.
 
@@ -180,10 +180,10 @@ A prioridade é utilizada para apoiar a organização visual das atividades e o 
 
 Cada membro possui uma visão resumida contendo:
 
-- Tarefas concluídas
-- Tarefas em andamento
-- Tarefas atrasadas
-- Indicadores de capacidade
+* Tarefas concluídas
+* Tarefas em andamento
+* Tarefas atrasadas
+* Indicadores de capacidade
 
 ---
 
@@ -193,10 +193,10 @@ O sistema gera alertas preventivos para apoiar a tomada de decisão.
 
 Exemplos:
 
-- Tarefas atrasadas
-- Tarefas urgentes próximas do vencimento
-- Projetos em risco
-- Capacidade comprometida da equipe
+* Tarefas atrasadas
+* Tarefas urgentes próximas do vencimento
+* Projetos em risco
+* Capacidade comprometida da equipe
 
 O objetivo é permitir ação preventiva antes que os problemas impactem clientes ou entregas.
 
@@ -311,9 +311,9 @@ src/
 
 Entidades principais:
 
-- Project
-- Member
-- Task
+* Project
+* Member
+* Task
 
 Relacionamentos:
 
@@ -329,14 +329,14 @@ Member
 
 # 🛠️ Tecnologias Utilizadas
 
-- Next.js
-- TypeScript
-- TailwindCSS
-- shadcn/ui
-- Prisma ORM
-- SQLite
-- Recharts
-- Zod
+* Next.js
+* TypeScript
+* TailwindCSS
+* shadcn/ui
+* Prisma ORM
+* SQLite
+* Recharts
+* Zod
 
 ---
 
@@ -346,13 +346,13 @@ A aplicação será entregue com dados previamente carregados.
 
 Serão disponibilizados:
 
-- Projetos fictícios
-- Equipe fictícia
-- Tarefas distribuídas
-- Cenários de atraso
-- Cenários de sobrecarga
-- Cenários de ociosidade
-- Projetos em risco
+* Projetos fictícios
+* Equipe fictícia
+* Tarefas distribuídas
+* Cenários de atraso
+* Cenários de sobrecarga
+* Cenários de ociosidade
+* Projetos em risco
 
 O objetivo é permitir a avaliação completa da solução sem necessidade de cadastro manual.
 
@@ -362,16 +362,16 @@ O objetivo é permitir a avaliação completa da solução sem necessidade de ca
 
 Por restrição de prazo, algumas funcionalidades foram propositalmente removidas:
 
-- Scrum completo
-- Sprint Planning
-- User Stories
-- Backlog estruturado
-- Integração com Google Agenda
-- Autenticação Google
-- Notificações em tempo real
-- Gestão avançada de permissões
-- Multi-organização
-- Integrações externas
+* Scrum completo
+* Sprint Planning
+* User Stories
+* Backlog estruturado
+* Integração com Google Agenda
+* Autenticação Google
+* Notificações em tempo real
+* Gestão avançada de permissões
+* Multi-organização
+* Integrações externas
 
 A prioridade foi entregar uma solução funcional e alinhada às necessidades centrais do problema proposto.
 
@@ -407,12 +407,12 @@ http://localhost:3000
 
 # 🔮 Evoluções Futuras
 
-- Drag and Drop completo no quadro Kanban
-- Comentários em tarefas
-- Etiquetas
-- Histórico de atividades
-- Dashboard avançado por projeto
-- Integração com calendário
-- Sistema de notificações
-- Autenticação
-- Permissões por perfil
+* Drag and Drop completo no quadro Kanban
+* Comentários em tarefas
+* Etiquetas
+* Histórico de atividades
+* Dashboard avançado por projeto
+* Integração com calendário
+* Sistema de notificações
+* Autenticação
+* Permissões por perfil

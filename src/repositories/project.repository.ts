@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/prisma";
 
 export const projectRepository = {
   findAll() {
@@ -8,7 +8,7 @@ export const projectRepository = {
         members: true,
       },
       orderBy: {
-        dueDate: 'asc',
+        dueDate: "asc",
       },
     });
   },

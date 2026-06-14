@@ -1,4 +1,4 @@
-import { memberRepository } from '@/repositories/member.repository';
+import { memberRepository } from "@/repositories/member.repository";
 
 export const memberService = {
   findAll() {

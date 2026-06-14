@@ -1,5 +1,5 @@
-import { Priority, TaskStatus } from '@prisma/client';
-import { prisma } from '@/lib/prisma';
+import { Priority, TaskStatus } from "@prisma/client";
+import { prisma } from "@/lib/prisma";
 
 type CreateTaskData = {
   title: string;
@@ -19,7 +19,7 @@ export const taskRepository = {
         assignee: true,
       },
       orderBy: {
-        dueDate: 'asc',
+        dueDate: "asc",
       },
     });
   },
@@ -32,7 +32,7 @@ export const taskRepository = {
         assignee: true,
       },
       orderBy: {
-        dueDate: 'asc',
+        dueDate: "asc",
       },
     });
   },

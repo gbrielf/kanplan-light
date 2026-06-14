@@ -1,7 +1,7 @@
-import { Priority, TaskStatus } from '@prisma/client';
-import { taskRepository } from '@/repositories/task.repository';
-import { memberRepository } from '@/repositories/member.repository';
-import { projectRepository } from '@/repositories/project.repository';
+import { Priority, TaskStatus } from "@prisma/client";
+import { taskRepository } from "@/repositories/task.repository";
+import { memberRepository } from "@/repositories/member.repository";
+import { projectRepository } from "@/repositories/project.repository";
 
 const PRIORITY_WEIGHT: Record<Priority, number> = {
   LOW: 1,
@@ -85,21 +85,21 @@ export const dashboardService = {
         capacityScore,
         status:
           capacityScore >= 9
-            ? 'OVERLOADED'
+            ? "OVERLOADED"
             : capacityScore === 0
-              ? 'IDLE'
+              ? "IDLE"
               : capacityScore <= 4
-                ? 'HEALTHY'
-                : 'ATTENTION',
+                ? "HEALTHY"
+                : "ATTENTION",
       };
     });
 
     const overloadedMembers = membersCapacity.filter(
-      (member) => member.status === 'OVERLOADED'
+      (member) => member.status === "OVERLOADED"
     );
 
     const idleMembers = membersCapacity.filter(
-      (member) => member.status === 'IDLE'
+      (member) => member.status === "IDLE"
     );
 
     const completedTasksWithValidDuration = tasks.filter((task) => {

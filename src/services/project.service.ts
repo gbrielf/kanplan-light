@@ -1,4 +1,4 @@
-import { projectRepository } from '@/repositories/project.repository';
+import { projectRepository } from "@/repositories/project.repository";
 
 export const projectService = {
   findAll() {

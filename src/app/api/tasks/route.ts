@@ -1,4 +1,4 @@
-import { taskService } from '@/services/task.service';
+import { taskService } from "@/services/task.service";
 
 export async function GET() {
   const tasks = await taskService.findAll();
