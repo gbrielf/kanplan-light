@@ -81,6 +81,9 @@ Ao invés de implementar um framework ágil completo, a solução busca resolver
 
 Tela voltada para o acompanhamento da operação e apoio à decisão do gestor.
 
+![alt text](<Screenshot from 2026-06-14 13-48-38.png>)
+>imagem do dashboard gerencial com KPIs e cards de membros da equipe
+
 ### KPIs disponíveis
 
 * Tarefas atrasadas;
@@ -130,6 +133,9 @@ O objetivo é permitir que o gestor identifique uma sobrecarga e consiga agir im
 ## Quadro Kanban
 
 Tela operacional para acompanhamento do fluxo das tarefas.
+
+![alt text](<Screenshot from 2026-06-14 13-48-31.png>)
+>imagem do quadro kanban com colunas: A iniciar, Em andamento, Validação, Revisão e Concluído
 
 ### Fluxo das tarefas
 
