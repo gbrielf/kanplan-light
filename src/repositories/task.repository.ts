@@ -47,6 +47,23 @@ export const taskRepository = {
     });
   },
 
+  update(
+    id: string,
+    data: {
+      status?: TaskStatus;
+      assigneeId?: string;
+    }
+  ) {
+    return prisma.task.update({
+      where: { id },
+      data,
+      include: {
+        project: true,
+        assignee: true,
+      },
+    });
+  },
+
   updateStatus(id: string, status: TaskStatus) {
     return prisma.task.update({
       where: { id },

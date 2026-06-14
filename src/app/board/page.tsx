@@ -22,6 +22,7 @@ type Task = {
     name: string;
   };
   assignee: {
+    id: string;
     name: string;
   };
 };
@@ -115,20 +116,6 @@ export default function BoardPage() {
     assigneeId: '',
   });
 
-  async function loadDashboardData() {
-    const response = await fetch('/api/dashboard');
-    const data = await response.json();
-
-    setDashboardData(data);
-  }
-
-  async function loadTasks() {
-    const response = await fetch('/api/tasks');
-    const data = await response.json();
-
-    setTasks(data);
-    setLoading(false);
-  }
 
   async function loadFormData() {
     const [projectsResponse, membersResponse] = await Promise.all([
@@ -172,10 +159,47 @@ export default function BoardPage() {
   }
 
   useEffect(() => {
-    loadTasks();
-    loadFormData();
-    loadDashboardData();
+    async function loadInitialData() {
+      await Promise.all([
+        loadTasks(),
+        loadFormData(),
+        loadDashboardData(),
+      ]);
+    }
+
+    loadInitialData();
   }, []);
+
+
+
+  async function loadDashboardData() {
+    const response = await fetch('/api/dashboard');
+    const data = await response.json();
+
+    setDashboardData(data);
+  }
+
+  async function loadTasks() {
+    const response = await fetch('/api/tasks');
+    const data = await response.json();
+
+    setTasks(data);
+    setLoading(false);
+  }
+
+async function reassignTask(taskId: string, assigneeId: string) {
+  await fetch(`/api/tasks/${taskId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ assigneeId }),
+  });
+
+  await loadTasks();
+  await loadDashboardData();
+}
+
 
   const tasksByStatus = useMemo(() => {
     return columns.reduce<Record<TaskStatus, Task[]>>(
@@ -329,7 +353,9 @@ export default function BoardPage() {
                         <TaskCard
                           key={task.id}
                           task={task}
+                          members={members}
                           onAdvance={moveTask}
+                          onReassign={reassignTask}
                         />
                       ))}
 
