@@ -1,6 +1,7 @@
 export function TaskIcon({ className }: { className?: string }) {
   return (
     <svg
+      className={className}
       width="72"
       height="72"
       viewBox="0 0 20 20"

@@ -240,12 +240,13 @@ export default function BoardPage() {
             </p>
           </header>
 
-          <div className="flex shrink-0 items-center gap-3 border-b border-white/5 bg-[#0C0C0C] px-8 py-3">
+          <div className="flex shrink-0 items-center gap-3 px-8 py-3">
             <button
               onClick={() => setIsCreating(true)}
-              className="rounded-lg bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-zinc-200"
+              className="flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-xs font-semibold text-white transition hover:bg-blue-700"
             >
-              + Criar tarefa
+              <TaskIcon className='h-6 w-6'/>
+              Criar tarefa
             </button>
 
             <div className="flex h-9 w-64 items-center rounded-lg border border-white/8 bg-[#141414] px-3 transition hover:border-white/20">
@@ -494,7 +495,7 @@ export default function BoardPage() {
                 </button>
                 <button
                   type="submit"
-                  className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-zinc-200"
+                  className="rounded-lg bg-blue-500 px-4 py-2 text-sm font-semibold text-black transition hover:bg-blue-600"
                 >
                   Criar tarefa
                 </button>
