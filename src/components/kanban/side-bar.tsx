@@ -248,10 +248,10 @@ export function Sidebar() {
       href: '/dashboard',
       icon: (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10 3H3V12H10V3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M21 3H14V8H21V3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M21 12H14V21H21V12Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M10 16H3V21H10V16Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 3H3V12H10V3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M21 3H14V8H21V3Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M21 12H14V21H21V12Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+        <path d="M10 16H3V21H10V16Z" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
         </svg>
       ),
     },
@@ -403,21 +403,14 @@ export function Sidebar() {
           <div className="flex items-center gap-3">
             <div className="relative">
               <div className="h-9 w-9 overflow-hidden rounded-full bg-white">
-                <img
-                  src="/avatar.png"
-                  alt="avatar"
-                  className="h-full w-full object-cover"
-                  onError={(event) => {
-                    event.currentTarget.style.display = 'none';
-                  }}
-                />
+                R
               </div>
               <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-green-500 ring-2 ring-[#1E1E1E]" />
             </div>
 
             <div>
-              <p className="text-sm font-medium text-white">Gabriel Barbosa</p>
-              <p className="text-xs text-[#9E9E9E]">gabriel@email.com</p>
+              <p className="text-sm font-medium text-white">Ricardo</p>
+              <p className="text-xs text-[#9E9E9E]">ricardo@email.com</p>
             </div>
           </div>
         </div>
