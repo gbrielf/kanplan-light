@@ -14,6 +14,7 @@ type Task = {
   description: string | null;
   status: TaskStatus;
   priority: Priority;
+  createdAt: string;
   dueDate: string;
   project: {
     name: string;
@@ -219,55 +220,54 @@ export default function BoardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#0B0B0B] text-slate-100">
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <section className="flex-1 p-8">
-          <header className="mb-8">
-            <p className="text-sm text-slate-400">Quadro de atividades</p>
-            <h2 className="text-3xl font-bold">Kanban da Equipe</h2>
-            <p className="mt-2 max-w-2xl text-slate-400">
-              Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos
-              das atividades do time.
-            </p>
-            <button
-              onClick={() => setIsCreating(true)}
-              className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
-            >
-              + Nova tarefa
-            </button>
-          </header>
+  <main className="h-screen overflow-hidden bg-[#0B0B0B] text-slate-100">
+    <div className="flex h-screen w-full overflow-hidden">
+      <Sidebar />
 
+      <section className="flex min-w-0 flex-1 flex-col overflow-hidden p-8">
+        <header className="mb-6 shrink-0">
+          <p className="text-sm text-slate-400">Quadro de atividades</p>
+          <h2 className="text-3xl font-bold">Kanban da Equipe</h2>
+          <p className="mt-2 max-w-2xl text-slate-400">
+            Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos
+            das atividades do time.
+          </p>
+
+          <button
+            onClick={() => setIsCreating(true)}
+            className="mt-4 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+          >
+            + Nova tarefa
+          </button>
+        </header>
+
+        <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-[#2B2B2B] bg-[#181919] p-6">
           {dashboardData && (
-            <section className="mb-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+            <section className="mb-6 grid shrink-0 gap-4 md:grid-cols-2 xl:grid-cols-5">
               <KpiCard
                 title="Tarefas atrasadas"
                 value={dashboardData.kpis.overdueTasks}
                 description="exigem ação imediata"
                 variant="danger"
               />
-
               <KpiCard
                 title="Prazos em risco"
                 value={dashboardData.kpis.tasksAtRisk}
                 description="vencem em até 48h"
                 variant="warning"
               />
-
               <KpiCard
                 title="Sobrecarga"
                 value={dashboardData.kpis.overloadedMembers}
                 description="membros com alta carga"
                 variant="info"
               />
-
               <KpiCard
                 title="Ociosos"
                 value={dashboardData.kpis.idleMembers}
                 description="capacidade disponível"
                 variant="neutral"
               />
-
               <KpiCard
                 title="Concluídas"
                 value={dashboardData.kpis.completedThisWeek}
@@ -276,23 +276,22 @@ export default function BoardPage() {
               />
             </section>
           )}
+
           {loading ? (
             <p className="text-slate-400">Carregando tarefas...</p>
           ) : (
-            <div className="w-full overflow-x-auto pb-4">
-              <div className="grid w-max grid-cols-5 gap-4">
+            <div className="custom-scrollbar min-h-0 flex-1 overflow-auto pb-4">
+              <div className="flex min-h-full w-max gap-4">
                 {columns.map((column) => (
                   <div
                     key={column.status}
-                    className="flex min-h-[650px] w-80 flex-col rounded-2xl border border-white bg-black-10 p-4 backdrop-blur-sm"
+                    className="flex min-h-full w-80 shrink-0 flex-col rounded-2xl border border-white/70 bg-[#0B0B0B] p-4"
                   >
-                    <div className="mb-4 flex items-center justify-between border-b border-slate-800 pb-3">
-                      <h3 className="font-semibold">{column.title}</h3>
-                      <span className="rounded-full bg-slate-800 px-2 py-1 text-xs text-slate-300">
-                        {tasksByStatus[column.status].length}
-                      </span>
+                    <div className="mb-4 flex shrink-0 items-center justify-between border-b border-white/70 pb-3">
+                      <h3 className="font-semibold text-sm text-[#696969]">{column.title}</h3>
                     </div>
-                    <div className="space-y-3">
+
+                    <div className="min-h-0 flex-1 space-y-3  pr-1">
                       {tasksByStatus[column.status].map((task) => (
                         <TaskCard
                           key={task.id}
@@ -300,6 +299,7 @@ export default function BoardPage() {
                           onAdvance={moveTask}
                         />
                       ))}
+
                       {tasksByStatus[column.status].length === 0 && (
                         <p className="rounded-xl border border-dashed border-slate-800 p-4 text-center text-sm text-slate-500">
                           Nenhuma tarefa aqui.
@@ -311,132 +311,134 @@ export default function BoardPage() {
               </div>
             </div>
           )}
-        </section>
-      </div>
-      {isCreating && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="w-full max-w-2xl rounded-2xl border border-slate-700 bg-slate-950 p-6 shadow-2xl">
-            <div className="mb-6">
-              <p className="text-sm text-slate-400">Registro de atividade</p>
-              <h2 className="text-2xl font-bold">Criar Tarefa</h2>
+        </div>
+      </section>
+    </div>
+
+    {isCreating && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+        <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-slate-700 bg-slate-950 p-6 shadow-2xl">
+          <div className="mb-6">
+            <p className="text-sm text-slate-400">Registro de atividade</p>
+            <h2 className="text-2xl font-bold">Criar Tarefa</h2>
+          </div>
+
+          <form onSubmit={createTask} className="space-y-4">
+            <div>
+              <label className="text-sm text-slate-400">Título</label>
+              <input
+                required
+                value={form.title}
+                onChange={(event) =>
+                  setForm({ ...form, title: event.target.value })
+                }
+                placeholder="Ex.: Revisar proposta do cliente"
+                className="mt-1 w-full border-b border-slate-700 bg-transparent px-1 py-3 text-lg outline-none placeholder:text-slate-600 focus:border-blue-500"
+              />
             </div>
 
-            <form onSubmit={createTask} className="space-y-4">
+            <div>
+              <label className="text-sm text-slate-400">Descrição</label>
+              <textarea
+                value={form.description}
+                onChange={(event) =>
+                  setForm({ ...form, description: event.target.value })
+                }
+                placeholder="Descreva rapidamente o que precisa ser feito..."
+                className="mt-1 min-h-24 w-full resize-none border-b border-slate-700 bg-transparent px-1 py-3 outline-none placeholder:text-slate-600 focus:border-blue-500"
+              />
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="text-sm text-slate-400">Título</label>
+                <label className="text-sm text-slate-400">Projeto</label>
+                <select
+                  required
+                  value={form.projectId}
+                  onChange={(event) =>
+                    setForm({ ...form, projectId: event.target.value })
+                  }
+                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                >
+                  {projects.map((project) => (
+                    <option key={project.id} value={project.id}>
+                      {project.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm text-slate-400">Responsável</label>
+                <select
+                  required
+                  value={form.assigneeId}
+                  onChange={(event) =>
+                    setForm({ ...form, assigneeId: event.target.value })
+                  }
+                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                >
+                  {members.map((member) => (
+                    <option key={member.id} value={member.id}>
+                      {member.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm text-slate-400">Prioridade</label>
+                <select
+                  value={form.priority}
+                  onChange={(event) =>
+                    setForm({
+                      ...form,
+                      priority: event.target.value as Priority,
+                    })
+                  }
+                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
+                >
+                  <option value="LOW">Baixa</option>
+                  <option value="MEDIUM">Média</option>
+                  <option value="HIGH">Alta</option>
+                  <option value="URGENT">Urgente</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm text-slate-400">Prazo</label>
                 <input
                   required
-                  value={form.title}
+                  type="date"
+                  value={form.dueDate}
                   onChange={(event) =>
-                    setForm({ ...form, title: event.target.value })
+                    setForm({ ...form, dueDate: event.target.value })
                   }
-                  placeholder="Ex.: Revisar proposta do cliente"
-                  className="mt-1 w-full border-b border-slate-700 bg-transparent px-1 py-3 text-lg outline-none placeholder:text-slate-600 focus:border-blue-500"
+                  className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
                 />
               </div>
+            </div>
 
-              <div>
-                <label className="text-sm text-slate-400">Descrição</label>
-                <textarea
-                  value={form.description}
-                  onChange={(event) =>
-                    setForm({ ...form, description: event.target.value })
-                  }
-                  placeholder="Descreva rapidamente o que precisa ser feito..."
-                  className="mt-1 min-h-24 w-full resize-none border-b border-slate-700 bg-transparent px-1 py-3 outline-none placeholder:text-slate-600 focus:border-blue-500"
-                />
-              </div>
+            <div className="flex justify-end gap-3 border-t border-slate-800 pt-5">
+              <button
+                type="button"
+                onClick={() => setIsCreating(false)}
+                className="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-900"
+              >
+                Cancelar
+              </button>
 
-              <div className="grid gap-4 md:grid-cols-2">
-                <div>
-                  <label className="text-sm text-slate-400">Projeto</label>
-                  <select
-                    required
-                    value={form.projectId}
-                    onChange={(event) =>
-                      setForm({ ...form, projectId: event.target.value })
-                    }
-                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                  >
-                    {projects.map((project) => (
-                      <option key={project.id} value={project.id}>
-                        {project.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-sm text-slate-400">Responsável</label>
-                  <select
-                    required
-                    value={form.assigneeId}
-                    onChange={(event) =>
-                      setForm({ ...form, assigneeId: event.target.value })
-                    }
-                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                  >
-                    {members.map((member) => (
-                      <option key={member.id} value={member.id}>
-                        {member.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-sm text-slate-400">Prioridade</label>
-                  <select
-                    value={form.priority}
-                    onChange={(event) =>
-                      setForm({
-                        ...form,
-                        priority: event.target.value as Priority,
-                      })
-                    }
-                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                  >
-                    <option value="LOW">Baixa</option>
-                    <option value="MEDIUM">Média</option>
-                    <option value="HIGH">Alta</option>
-                    <option value="URGENT">Urgente</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="text-sm text-slate-400">Prazo</label>
-                  <input
-                    required
-                    type="date"
-                    value={form.dueDate}
-                    onChange={(event) =>
-                      setForm({ ...form, dueDate: event.target.value })
-                    }
-                    className="mt-1 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-3 text-sm outline-none focus:border-blue-500"
-                  />
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-3 border-t border-slate-800 pt-5">
-                <button
-                  type="button"
-                  onClick={() => setIsCreating(false)}
-                  className="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-900"
-                >
-                  Cancelar
-                </button>
-
-                <button
-                  type="submit"
-                  className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
-                >
-                  Criar tarefa
-                </button>
-              </div>
-            </form>
-          </div>
+              <button
+                type="submit"
+                className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
+              >
+                Criar tarefa
+              </button>
+            </div>
+          </form>
         </div>
-      )}
-    </main>
-  );
+      </div>
+    )}
+  </main>
+);
 }
