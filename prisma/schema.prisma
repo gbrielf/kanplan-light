@@ -1,13 +1,79 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
+}
+
+enum TaskStatus {
+  TO_DO
+  IN_PROGRESS
+  VALIDATION
+  REVIEW
+  DONE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum ProjectStatus {
+  PLANNING
+  ACTIVE
+  AT_RISK
+  COMPLETED
+}
+
+model Project {
+  id          String        @id @default(cuid())
+  name        String
+  description String?
+  startDate   DateTime
+  dueDate     DateTime
+  status      ProjectStatus @default(PLANNING)
+  priority    Priority      @default(MEDIUM)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  tasks       Task[]
+  members     Member[]
+}
+
+model Member {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  role      String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  tasks     Task[]
+  projects  Project[]
+}
+
+model Task {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+
+  status      TaskStatus @default(TO_DO)
+  priority    Priority   @default(MEDIUM)
+
+  dueDate     DateTime
+  completedAt DateTime?
+
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  projectId   String
+  project     Project    @relation(fields: [projectId], references: [id])
+
+  assigneeId  String
+  assignee    Member     @relation(fields: [assigneeId], references: [id])
 }

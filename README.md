@@ -123,8 +123,8 @@ O sistema permite reatribuir tarefas para outro membro da equipe.
 
 Essa funcionalidade está disponível:
 
-* Na tela de Dashboard, dentro da visão expandida de cada membro;
 * No quadro Kanban, diretamente nos cards de tarefa.
+* Na tela de Dashboard, dentro da visão expandida de cada membro;
 
 O objetivo é permitir que o gestor identifique uma sobrecarga e consiga agir imediatamente, sem precisar sair da tela atual.
 
@@ -370,6 +370,27 @@ Os dados incluem:
 O objetivo é permitir a avaliação completa da solução sem necessidade de cadastro manual.
 
 ---
+## 🐳 Dev Container
+
+O projeto possui configuração de Dev Container para facilitar a execução em ambiente padronizado.
+
+Para utilizar:
+
+1. Abra o projeto no VS Code;
+2. Execute o comando:
+
+```txt
+Dev Containers: Reopen in Container
+```
+
+3. Aguarde a instalação das dependências;
+4. Execute a aplicação normalmente:
+
+```bash
+npm run dev
+```
+
+---
 
 ## 🚀 Como Executar
 
@@ -434,28 +455,6 @@ http://localhost:3000
 /           → redireciona para /board
 /board      → quadro Kanban
 /dashboard  → dashboard gerencial
-```
-
----
-
-## 🐳 Dev Container
-
-O projeto possui configuração de Dev Container para facilitar a execução em ambiente padronizado.
-
-Para utilizar:
-
-1. Abra o projeto no VS Code;
-2. Execute o comando:
-
-```txt
-Dev Containers: Reopen in Container
-```
-
-3. Aguarde a instalação das dependências;
-4. Execute a aplicação normalmente:
-
-```bash
-npm run dev
 ```
 
 ---
