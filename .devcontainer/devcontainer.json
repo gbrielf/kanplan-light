@@ -1,0 +1,32 @@
+{
+  "name": "Kanplan Light",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22",
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {}
+  },
+  "forwardPorts": [3000, 5555],
+  "portsAttributes": {
+    "3000": {
+      "label": "Next.js App",
+      "onAutoForward": "notify"
+    },
+    "5555": {
+      "label": "Prisma Studio",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "npm install && npx prisma generate && npx prisma migrate dev --name init || true && npx prisma db seed || true",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "Prisma.prisma",
+        "bradlc.vscode-tailwindcss",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "github.vscode-github-actions",
+        "pkief.material-icon-theme",
+        "dracula-theme.theme-dracula"
+      ]
+    }
+  }
+}
