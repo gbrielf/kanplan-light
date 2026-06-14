@@ -99,8 +99,8 @@ export function Sidebar() {
       locked: true,
       icon: (
         <svg
-          width="29"
-          height="29"
+          width="24"
+          height="24"
           viewBox="0 0 29 29"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -224,8 +224,8 @@ export function Sidebar() {
       href: '/board',
       icon: (
         <svg
-          width="36"
-          height="34"
+          width="24"
+          height="24"
           viewBox="0 0 36 34"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -247,23 +247,11 @@ export function Sidebar() {
       label: 'Dashboard',
       href: '/dashboard',
       icon: (
-        <svg
-          width="36"
-          height="34"
-          viewBox="0 0 36 34"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M3.25 4.05721V25.7437C3.25 25.7437 3.65238 26.6331 4.14286 26.9485C4.64305 27.2702 5.63095 27.2497 5.63095 27.2497H11.5833C11.5833 27.2497 12.3469 27.1689 12.7738 26.9485C13.3595 26.6461 13.9643 25.7437 13.9643 25.7437V4.05721C13.9643 4.05721 13.7366 3.22437 13.369 2.8524C12.8493 2.32636 11.5833 2.25 11.5833 2.25H5.63095C5.63095 2.25 4.36502 2.32636 3.84524 2.8524C3.47769 3.22437 3.25 4.05721 3.25 4.05721Z"
-            stroke="white"
-            strokeWidth="2"
-          />
-          <path
-            d="M17.5357 4.05721V16.7077C17.5357 16.7077 17.7634 17.5405 18.131 17.9125C18.6507 18.4385 19.9167 18.5149 19.9167 18.5149H25.869C25.869 18.5149 26.8643 18.303 27.3571 17.9125C27.8147 17.5499 28.25 16.7077 28.25 16.7077V4.05721C28.25 4.05721 28.0223 3.22437 27.6548 2.8524C27.135 2.32636 25.869 2.25 25.869 2.25H19.3214C19.3214 2.25 18.4985 2.48044 18.131 2.8524C17.7634 3.22437 17.5357 4.05721 17.5357 4.05721Z"
-            stroke="white"
-            strokeWidth="2"
-          />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 3H3V12H10V3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 3H14V8H21V3Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M21 12H14V21H21V12Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M10 16H3V21H10V16Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       ),
     },
