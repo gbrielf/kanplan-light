@@ -103,9 +103,7 @@ export default function BoardPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [members, setMembers] = useState<Member[]>([]);
   const [isCreating, setIsCreating] = useState(false);
-  const [dashboardData, setDashboardData] = useState<DashboardData | null>(
-    null
-  );
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
 
   const [form, setForm] = useState<CreateTaskForm>({
     title: '',
@@ -115,7 +113,6 @@ export default function BoardPage() {
     projectId: '',
     assigneeId: '',
   });
-
 
   async function loadFormData() {
     const [projectsResponse, membersResponse] = await Promise.all([
@@ -143,9 +140,7 @@ export default function BoardPage() {
 
     const response = await fetch(`/api/tasks/${task.id}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });
 
@@ -160,46 +155,35 @@ export default function BoardPage() {
 
   useEffect(() => {
     async function loadInitialData() {
-      await Promise.all([
-        loadTasks(),
-        loadFormData(),
-        loadDashboardData(),
-      ]);
+      await Promise.all([loadTasks(), loadFormData(), loadDashboardData()]);
     }
 
     loadInitialData();
   }, []);
 
-
-
   async function loadDashboardData() {
     const response = await fetch('/api/dashboard');
     const data = await response.json();
-
     setDashboardData(data);
   }
 
   async function loadTasks() {
     const response = await fetch('/api/tasks');
     const data = await response.json();
-
     setTasks(data);
     setLoading(false);
   }
 
-async function reassignTask(taskId: string, assigneeId: string) {
-  await fetch(`/api/tasks/${taskId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ assigneeId }),
-  });
+  async function reassignTask(taskId: string, assigneeId: string) {
+    await fetch(`/api/tasks/${taskId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ assigneeId }),
+    });
 
-  await loadTasks();
-  await loadDashboardData();
-}
-
+    await loadTasks();
+    await loadDashboardData();
+  }
 
   const tasksByStatus = useMemo(() => {
     return columns.reduce<Record<TaskStatus, Task[]>>(
@@ -207,16 +191,9 @@ async function reassignTask(taskId: string, assigneeId: string) {
         acc[column.status] = sortTasksByPriorityAndDueDate(
           tasks.filter((task) => task.status === column.status)
         );
-
         return acc;
       },
-      {
-        TO_DO: [],
-        IN_PROGRESS: [],
-        VALIDATION: [],
-        REVIEW: [],
-        DONE: [],
-      }
+      { TO_DO: [], IN_PROGRESS: [], VALIDATION: [], REVIEW: [], DONE: [] }
     );
   }, [tasks]);
 
@@ -225,9 +202,7 @@ async function reassignTask(taskId: string, assigneeId: string) {
 
     await fetch('/api/tasks', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(form),
     });
 
@@ -246,37 +221,37 @@ async function reassignTask(taskId: string, assigneeId: string) {
   }
 
   return (
-  <main className="h-screen overflow-hidden bg-[#0B0B0B] text-slate-100">
-    <div className="flex h-screen w-full overflow-hidden">
-      <Sidebar />
+    <main className="h-screen overflow-hidden bg-[#080808] text-white">
+      <div className="flex h-screen w-full overflow-hidden">
+        <Sidebar />
 
-      <section className="flex min-w-0 flex-1 flex-col overflow-hidden p-8">
-        <header className="mb-6 shrink-0 overflow-hidden rounded-2xl border border-[#2B2B2B] bg-[#181919]">
-          <div className="border-b border-[#2B2B2B] bg-[#0F1010] px-6 py-5">
-            <p className="text-sm text-slate-400">Quadro de atividades</p>
-
-            <h1 className="mt-1 text-3xl font-semibold text-white">
+        <section className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          {/* Header */}
+          <header className="shrink-0 border-b border-white/5 bg-[#0C0C0C] px-8 py-6">
+            <p className="mb-1 text-xs font-medium uppercase tracking-widest text-zinc-600">
+              Quadro de atividades
+            </p>
+            <h1 className="text-2xl font-semibold tracking-tight text-white">
               Kanban da Equipe
             </h1>
-
-            <p className="mt-2 text-sm text-slate-400">
+            <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
               Acompanhe o fluxo de trabalho, responsáveis, prioridades e prazos das
               atividades do time.
             </p>
-          </div>
+          </header>
 
-          <div className="flex flex-wrap items-center gap-3 px-6 py-4">
+          <div className="flex shrink-0 items-center gap-3 border-b border-white/5 bg-[#0C0C0C] px-8 py-3">
             <button
               onClick={() => setIsCreating(true)}
-              className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-500"
+              className="rounded-lg bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-zinc-200"
             >
               + Criar tarefa
             </button>
 
-            <div className="flex h-10 w-72 items-center rounded-xl border border-[#2C2C2C] bg-[#111111] px-3">
+            <div className="flex h-9 w-64 items-center rounded-lg border border-white/8 bg-[#141414] px-3 transition hover:border-white/20">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="mr-2 h-4 w-4 text-slate-500"
+                className="mr-2 h-3.5 w-3.5 text-zinc-600"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -288,198 +263,202 @@ async function reassignTask(taskId: string, assigneeId: string) {
                   d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z"
                 />
               </svg>
-
               <input
                 disabled
                 placeholder="Buscar tarefa..."
-                className="w-full bg-transparent text-sm text-slate-500 outline-none"
+                className="w-full bg-transparent text-xs text-zinc-600 outline-none placeholder:text-zinc-700"
               />
             </div>
           </div>
-        </header>
 
-        <div className="flex min-h-0 flex-1 flex-col rounded-2xl border border-[#2B2B2B] bg-[#181919] p-6">
-          {dashboardData && (
-            <section className="mb-6 grid shrink-0 gap-4 md:grid-cols-2 xl:grid-cols-5">
-              <KpiCard
-                title="Tarefas atrasadas"
-                value={dashboardData.kpis.overdueTasks}
-                description="exigem ação imediata"
-                variant="danger"
-              />
-              <KpiCard
-                title="Prazos em risco"
-                value={dashboardData.kpis.tasksAtRisk}
-                description="vencem em até 48h"
-                variant="warning"
-              />
-              <KpiCard
-                title="Sobrecarga"
-                value={dashboardData.kpis.overloadedMembers}
-                description="membros com alta carga"
-                variant="info"
-              />
-              <KpiCard
-                title="Ociosos"
-                value={dashboardData.kpis.idleMembers}
-                description="capacidade disponível"
-                variant="neutral"
-              />
-              <KpiCard
-                title="Concluídas"
-                value={dashboardData.kpis.completedThisWeek}
-                description="na semana"
-                variant="success"
-              />
-            </section>
-          )}
+          <div className="flex min-h-0 flex-1 flex-col overflow-hidden p-6">
+            {/* KPIs */}
+            {dashboardData && (
+              <section className="mb-5 grid shrink-0 gap-3 md:grid-cols-2 xl:grid-cols-5">
+                <KpiCard
+                  title="Tarefas atrasadas"
+                  value={dashboardData.kpis.overdueTasks}
+                  description="exigem ação imediata"
+                  variant="danger"
+                />
+                <KpiCard
+                  title="Prazos em risco"
+                  value={dashboardData.kpis.tasksAtRisk}
+                  description="vencem em até 48h"
+                  variant="warning"
+                />
+                <KpiCard
+                  title="Sobrecarga"
+                  value={dashboardData.kpis.overloadedMembers}
+                  description="membros com alta carga"
+                  variant="info"
+                />
+                <KpiCard
+                  title="Ociosos"
+                  value={dashboardData.kpis.idleMembers}
+                  description="capacidade disponível"
+                  variant="neutral"
+                />
+                <KpiCard
+                  title="Concluídas"
+                  value={dashboardData.kpis.completedThisWeek}
+                  description="na semana"
+                  variant="success"
+                />
+              </section>
+            )}
 
-          {loading ? (
-            <p className="text-slate-400">Carregando tarefas...</p>
-          ) : (
-            <div className="custom-scrollbar min-h-0 flex-1 overflow-auto pb-4">
-              <div className="flex min-h-full w-max gap-4">
-                {columns.map((column) => (
-                  <div
-                    key={column.status}
-                    className="flex min-h-full w-80 shrink-0 flex-col rounded-2xl border border-white/70 bg-[#0B0B0B] p-4"
-                  >
-                    <div className="mb-4 flex shrink-0 items-center justify-between border-b border-white/70 pb-3">
-                      <h3 className="font-semibold text-sm text-[#696969]">{column.title}</h3>
+            {/* Board */}
+            {loading ? (
+              <div className="flex items-center gap-3 text-sm text-zinc-600">
+                <div className="h-1 w-1 animate-pulse rounded-full bg-zinc-600" />
+                Carregando tarefas…
+              </div>
+            ) : (
+              <div className="custom-scrollbar min-h-0 flex-1 overflow-auto pb-2">
+                <div className="flex min-h-full w-max gap-3">
+                  {columns.map((column) => (
+                    <div
+                      key={column.status}
+                      className="flex min-h-full w-72 shrink-0 flex-col rounded-2xl border border-white/5 bg-[#0F0F0F] p-4"
+                    >
+                      <div className="mb-4 flex shrink-0 items-center justify-between border-b border-white/5 pb-3">
+                        <h3 className="text-xs font-medium uppercase tracking-wider text-white font-semibold">
+                          {column.title}
+                        </h3>
+                        <span className="rounded-full bg-white/5 px-2 py-0.5 text-[11px] font-medium text-zinc-400">
+                          {tasksByStatus[column.status].length}
+                        </span>
+                      </div>
+
+                      <div className="min-h-0 flex-1 space-y-2.5 pr-0.5">
+                        {tasksByStatus[column.status].map((task) => (
+                          <TaskCard
+                            key={task.id}
+                            task={task}
+                            members={members}
+                            onAdvance={moveTask}
+                            onReassign={reassignTask}
+                          />
+                        ))}
+
+                        {tasksByStatus[column.status].length === 0 && (
+                          <div className="rounded-xl border border-dashed border-white/5 p-4 text-center">
+                            <p className="text-xs text-zinc-700">
+                              Nenhuma tarefa aqui.
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      </div>
 
-                    <div className="min-h-0 flex-1 space-y-3  pr-1">
-                      {tasksByStatus[column.status].map((task) => (
-                        <TaskCard
-                          key={task.id}
-                          task={task}
-                          members={members}
-                          onAdvance={moveTask}
-                          onReassign={reassignTask}
-                        />
-                      ))}
-
-                      {tasksByStatus[column.status].length === 0 && (
-                        <p className="rounded-xl border border-dashed border-slate-800 p-4 text-center text-sm text-slate-500">
-                          Nenhuma tarefa aqui.
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                ))}
+      {/* Create task modal */}
+      {isCreating && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/8 bg-[#0F0F0F] p-6 shadow-2xl">
+            <div className="mb-6 flex items-center gap-3">
+              <TaskIcon />
+              <div>
+                <p className="text-xs font-medium uppercase tracking-widest text-zinc-600">
+                  Registro de atividade
+                </p>
+                <h2 className="text-xl font-semibold tracking-tight text-white">
+                  Criar Tarefa
+                </h2>
               </div>
             </div>
-          )}
-        </div>
-      </section>
-    </div>
 
-    {isCreating && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-        <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-[#2B2B2B] bg-[#181919] p-6 shadow-2xl">
-          <div className="mb-6 flex items-center gap-4">
-            <TaskIcon/>
-            <div className="mb-6">
-              <p className="text-sm text-slate-400">Registro de atividade</p>
-              <h2 className="text-3xl font-medium">Criar Tarefa</h2>
-            </div>
-          </div>
-
-          <form onSubmit={createTask} className="space-y-4">
-            <div>
-              <input
-                required
-                value={form.title}
-                onChange={(event) =>
-                  setForm({ ...form, title: event.target.value })
-                }
-                placeholder="Título da tarefa"
-                className="mt-1 w-full border-b border-blue-500 bg-transparent px-1 py-3 text-base outline-none placeholder:text-[#696969] "
-              />
-            </div>
-
-            <div>
-              <textarea
-                value={form.description}
-                onChange={(event) =>
-                  setForm({ ...form, description: event.target.value })
-                }
-                placeholder="Descreva rapidamente o que precisa ser feito..."
-                className="mt-1  w-full text-base resize-none border-b border-[#2C2C2C] bg-transparent px-1 py-3 outline-none placeholder:text-[#696969] focus:border-white"
-              />
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="w-full">
-                <label className="text-sm text-[#696969]">Projeto</label>
-                <Select
-                  value={form.projectId}
-                  onValueChange={(value) =>
-                    setForm({ ...form, projectId: value })
+            <form onSubmit={createTask} className="space-y-5">
+              <div>
+                <input
+                  required
+                  value={form.title}
+                  onChange={(event) =>
+                    setForm({ ...form, title: event.target.value })
                   }
-                >
-                  <SelectTrigger className="mt-1 h-11 w-full rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm text-white outline-none focus:border-white">
-                    <SelectValue placeholder="Selecione" />
-                  </SelectTrigger>
-
-                  <SelectContent>
-                    {projects.map((project) => (
-                      <SelectItem
-                        key={project.id}
-                        value={project.id}
-                      >
-                        {project.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  placeholder="Título da tarefa"
+                  className="w-full border-b border-white/10 bg-transparent px-1 py-3 text-base text-white outline-none placeholder:text-zinc-700 focus:border-white/30 transition"
+                />
               </div>
 
               <div>
-                <div className="w-full">
-                  <label className="text-sm text-[#696969]">Responsável</label>
+                <textarea
+                  value={form.description}
+                  onChange={(event) =>
+                    setForm({ ...form, description: event.target.value })
+                  }
+                  placeholder="Descreva rapidamente o que precisa ser feito..."
+                  className="w-full resize-none border-b border-white/5 bg-transparent px-1 py-3 text-sm text-white outline-none placeholder:text-zinc-700 focus:border-white/20 transition"
+                />
+              </div>
 
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-600">
+                    Projeto
+                  </label>
+                  <Select
+                    value={form.projectId}
+                    onValueChange={(value) =>
+                      setForm({ ...form, projectId: value })
+                    }
+                  >
+                    <SelectTrigger className="h-10 w-full rounded-lg border border-white/8 bg-[#141414] px-3 text-sm text-white outline-none hover:border-white/20 transition">
+                      <SelectValue placeholder="Selecione" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {projects.map((project) => (
+                        <SelectItem key={project.id} value={project.id}>
+                          {project.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-600">
+                    Responsável
+                  </label>
                   <Select
                     value={form.assigneeId}
                     onValueChange={(value) =>
                       setForm({ ...form, assigneeId: value })
                     }
                   >
-                    <SelectTrigger className="mt-1 h-11 w-full rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm text-white outline-none focus:border-white">
+                    <SelectTrigger className="h-10 w-full rounded-lg border border-white/8 bg-[#141414] px-3 text-sm text-white outline-none hover:border-white/20 transition">
                       <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
-
                     <SelectContent>
                       {members.map((member) => (
-                        <SelectItem
-                          key={member.id}
-                          value={member.id}
-                        >
+                        <SelectItem key={member.id} value={member.id}>
                           {member.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
 
-              <div>
-                <div className="w-full">
-                  <label className="text-sm text-[#696969]">Prioridade</label>
-
+                <div>
+                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-600">
+                    Prioridade
+                  </label>
                   <Select
                     value={form.priority}
                     onValueChange={(value) =>
-                      setForm({
-                        ...form,
-                        priority: value as Priority,
-                      })
+                      setForm({ ...form, priority: value as Priority })
                     }
                   >
-                    <SelectTrigger className="mt-1 h-11 w-full rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm text-white outline-none focus:border-white">
+                    <SelectTrigger className="h-10 w-full rounded-lg border border-white/8 bg-[#141414] px-3 text-sm text-white outline-none hover:border-white/20 transition">
                       <SelectValue placeholder="Selecione" />
                     </SelectTrigger>
-
                     <SelectContent>
                       <SelectItem value="LOW">Baixa</SelectItem>
                       <SelectItem value="MEDIUM">Média</SelectItem>
@@ -488,43 +467,42 @@ async function reassignTask(taskId: string, assigneeId: string) {
                     </SelectContent>
                   </Select>
                 </div>
+
+                <div>
+                  <label className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-zinc-600">
+                    Prazo
+                  </label>
+                  <input
+                    required
+                    type="date"
+                    value={form.dueDate}
+                    onChange={(event) =>
+                      setForm({ ...form, dueDate: event.target.value })
+                    }
+                    className="flex h-10 w-full items-center rounded-lg border border-white/8 bg-[#141414] px-3 text-sm text-white outline-none transition hover:border-white/20 focus:border-white/30 [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-40 [&::-webkit-calendar-picker-indicator]:invert"
+                  />
+                </div>
               </div>
 
-              <div>
-                <label className="text-sm text-[#696969]">Prazo</label>
-                <input
-                  required
-                  type="date"
-                  value={form.dueDate}
-                  onChange={(event) =>
-                    setForm({ ...form, dueDate: event.target.value })
-                  }
-                   className="mt-1 flex h-11 w-full items-center rounded-lg border border-[#2C2C2C] bg-transparent px-3 text-sm leading-none text-white outline-none transition focus:border-white [color-scheme:dark] [&::-webkit-calendar-picker-indicator]:opacity-60 [&::-webkit-calendar-picker-indicator]:invert"
-   
-                />
+              <div className="flex justify-end gap-2.5 border-t border-white/5 pt-5">
+                <button
+                  type="button"
+                  onClick={() => setIsCreating(false)}
+                  className="rounded-lg border border-white/8 px-4 py-2 text-sm font-medium text-zinc-400 transition hover:border-white/20 hover:text-white"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-black transition hover:bg-zinc-200"
+                >
+                  Criar tarefa
+                </button>
               </div>
-            </div>
-
-            <div className="flex justify-end gap-3 border-t border-slate-800 pt-5">
-              <button
-                type="button"
-                onClick={() => setIsCreating(false)}
-                className="rounded-xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-300 transition hover:bg-slate-900"
-              >
-                Cancelar
-              </button>
-
-              <button
-                type="submit"
-                className="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-500"
-              >
-                Criar tarefa
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
-    )}
-  </main>
-);
+      )}
+    </main>
+  );
 }
