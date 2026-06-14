@@ -86,9 +86,9 @@ export const dashboardService = {
         status:
           capacityScore >= 9
             ? 'OVERLOADED'
-            : capacityScore === 0
+            : capacityScore <= 2
               ? 'IDLE'
-              : capacityScore <= 4
+              : capacityScore <= 5
                 ? 'HEALTHY'
                 : 'ATTENTION',
       };
