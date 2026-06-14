@@ -484,6 +484,18 @@ A prioridade foi entregar uma solução funcional, apresentável e alinhada às 
 
 ---
 
+## 🔒 Licença, Uso e Direitos da Marca
+
+Este projeto foi desenvolvido por **Gabriel Henrique Furtado Barbosa** para fins acadêmicos e de demonstração.
+
+O código-fonte, a interface, a identidade visual, os nomes **Kanplan** e **Kanplan Light**, o logotipo, as imagens, ícones autorais e demais elementos de marca não podem ser utilizados, copiados, modificados, distribuídos ou explorados comercialmente sem autorização prévia e expressa do autor.
+
+A disponibilização deste repositório não concede permissão automática de uso, reprodução ou adaptação do projeto ou de sua identidade visual.
+
+Todos os direitos reservados.
+
+---
+
 ## 🔮 Evoluções Futuras
 
 - Drag and Drop completo no quadro Kanban;
