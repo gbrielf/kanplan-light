@@ -339,7 +339,7 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="flex h-screen w-64 shrink-0 flex-col bg-[#1E1E1E] px-4 py-6">
+    <aside className="flex h-full-screen w-64 shrink-0 flex-col bg-[#1E1E1E] px-4 py-6">
       <div className="px-2">
         <h1 className="text-xl font-bold text-white">Kanplan.</h1>
       </div>
