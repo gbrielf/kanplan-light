@@ -65,6 +65,10 @@ type DashboardData = {
   membersCapacity: MemberCapacity[];
   projects: DashboardProject[];
   tasks: DashboardTask[];
+   members: {
+    id: string;
+    name: string;
+  }[];
 };
 
 const memberStatusLabel: Record<MemberStatus, string> = {
@@ -97,16 +101,16 @@ export default function DashboardPage() {
   const [expandedMemberId, setExpandedMemberId] = useState<string | null>(null);
 
   useEffect(() => {
-    async function loadDashboard() {
-      const response = await fetch("/api/dashboard");
-      const dashboard = await response.json();
-
-      setData(dashboard);
-    }
-
     loadDashboard();
   }, []);
 
+  async function loadDashboard() {
+    const response = await fetch("/api/dashboard");
+    const dashboard = await response.json();
+
+    setData(dashboard);
+  }
+  
   return (
     <main className="h-screen overflow-hidden bg-[#0B0B0B] text-white">
       <div className="flex h-screen w-full overflow-hidden">
@@ -249,9 +253,35 @@ export default function DashboardPage() {
                       {task.title}
                     </p>
 
-                    <span className="rounded-full bg-white/10 px-2 py-1 text-[11px] text-slate-300">
-                      {task.priority}
-                    </span>
+                    <div className="mt-3">
+  <label className="mb-1 block text-xs text-slate-500">
+    Responsável
+  </label>
+
+  <select
+    value={task.assignee.id}
+    onChange={async (event) => {
+      await fetch(`/api/tasks/${task.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          assigneeId: event.target.value,
+        }),
+      });
+
+      loadDashboard();
+    }}
+    className="w-full rounded-lg border border-[#2B2B2B] bg-[#0B0B0B] px-3 py-2 text-xs text-white"
+  >
+    {data.members.map((member) => (
+      <option key={member.id} value={member.id}>
+        {member.name}
+      </option>
+    ))}
+  </select>
+</div>
                   </div>
 
                   <p className="text-xs text-slate-400">

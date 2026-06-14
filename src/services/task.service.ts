@@ -27,6 +27,16 @@ export const taskService = {
     });
   },
 
+  update(
+    id: string,
+    data: {
+      status?: TaskStatus;
+      assigneeId?: string;
+    }
+  ) {
+    return taskRepository.update(id, data);
+  },
+
   updateStatus(id: string, status: TaskStatus) {
     return taskRepository.updateStatus(id, status);
   },

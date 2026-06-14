@@ -143,6 +143,7 @@ export const dashboardService = {
       membersCapacity,
       projects,
       tasks,
+      members,
     };
   },
 };
