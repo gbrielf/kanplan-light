@@ -66,13 +66,13 @@ const priorityLabel: Record<Priority, string> = {
 
  
   return (
-    <article className="w-72 rounded-2xl border border-[#2B2B2B] bg-[#0D0D0D] p-4 text-white shadow-md">
+    <article className="w-full max-w-full overflow-hidden rounded-2xl border border-[#2B2B2B] bg-[#0D0D0D] p-4 text-white shadow-md">
       <div className="mb-3 flex items-start justify-between gap-3">
-        <div className="flex items-start gap-3">
-          <TaskIcon className="text-red-500" />
+        <div className="flex min-w-0 items-start gap-3">
+          <TaskIcon className="shrink-0 text-red-500" />
 
-          <div>
-            <h4 className="text-lg font-semibold leading-tight">
+          <div className="min-w-0">
+            <h4 className="break-words text-md font-semibold leading-tight">
               {task.title}
             </h4>
 
@@ -82,7 +82,7 @@ const priorityLabel: Record<Priority, string> = {
           </div>
         </div>
 
-        <div className="flex flex-col items-center justify-center gap-2">
+        <div className="shrink-0">
           {nextStatus[task.status] && (
             <button
               onClick={() => onAdvance(task)}
@@ -94,7 +94,6 @@ const priorityLabel: Record<Priority, string> = {
           )}
         </div>
       </div>
-
       <div className="space-y-2 text-sm">
         <p>
           <span className="text-slate-300">Data de criação</span>{' '}
@@ -133,9 +132,9 @@ const priorityLabel: Record<Priority, string> = {
                 </label>
 
                   <select
-                    value={task.assignee.id}
+                    value={task.assignee?.id ?? ""}
                     onChange={(event) => onReassign(task.id, event.target.value)}
-                    className="w-full rounded-lg border border-[#2B2B2B] bg-[#0B0B0B] px-3 py-2 text-xs text-white"
+                    className="w-full max-w-full rounded-lg border border-[#2B2B2B] bg-[#0B0B0B] px-3 py-2 text-xs text-white"
                   >
                     {members.map((member) => (
                       <option key={member.id} value={member.id}>
